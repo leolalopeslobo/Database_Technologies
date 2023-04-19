@@ -8,3 +8,5 @@ Today I installed MySQL and learnt a few commands
 **show tables;**   -   displays the tables of the database
 
 **use (database_name);**   -  to change the database
+
+**create table (table_name)(parameters i.e. their [var_name] and [datatype])** - to create a table
