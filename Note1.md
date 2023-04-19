@@ -28,6 +28,7 @@ In real world we face a lot of challenge to work with these kinds of data
 
 - Collection & Storage of Data
 - Collection of facts and figures
+- Storing of data that can be related
 - Maybe related or unrelated directly <br>
 Intially all the data is not relation, until you have a purpose you can't relate the data. Once you get the purpose you which to study that data and create **relations**
 
