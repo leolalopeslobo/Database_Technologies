@@ -163,7 +163,7 @@ It gives us an outline/summary
 Fifth Rule 5:
 The comprehensive data sublanguage rule
   A database can only be accessed using a language having linear syntax (linear syntax means english language) that supports data definition, data manipulation, and transaction managaement operation (this also made it popular since the language was simple and plain). Eg: SQL
-  If the database allows access to the language without 
+  If the database allows access to the language without the use of this language, then that is a validation
   
   
   
@@ -194,6 +194,45 @@ Physical Data Independence
   
 Ninth Rule 9:
 Logical Data Independence
+  If there is change in the logical structure (table structures) of the databases the user view of data should not change
+  If the table is split into two tables, a new view should give result as the join of the two tables (why? would you do this? -> This is done because as the data size grows larger we need to increase the search efficiency). When they still join back they result in the single table output and this can be done using the concept of **View**
   
   
   
+Tenth Rule 10:
+Integrity Independence
+   Why do we defined Primary Key?
+   By doing this maintain **Data Integrity/Data Validation**. We make sure that there are no garbage (repeated, null) values
+   The database should be able to enforce its own integriyrather than using other programs
+   **Key and Check constraints, triggers etc, should be stored in Data Dictionary. This also makes RDBMS independent of front-end
+   
+   
+   
+What are all these contraints?
+**Constraints are used for Data Validation**. Protecting data from garbage data.
+**Constraints are: PRIMARY KEY, FOREIGN KEY, CHECK (MySQL find out how it works), UNIQUE, NOT NULL, ENUM**
+
+Difference between Database and Data Warehousing?
+Database: Here we want only 'Structured' data, Validation is important
+DataWarehousing: Here 'unstructured' data is stored, No Validation or Self-Validation is done
+  
+
+
+Eleventh Rule 11:
+Distribution Independence
+   This helps achieve **Data Security**
+   A database should work properly regardless of its distribution across a network
+   Even if a database is geographically distributed, with data stored in pieces, the end user should get an impression that is stored at the same place
+   (This means that the same server is logically distributed into multiple servers)
+   Why is it necessary?
+   This helps incase one of the server crashes the others are there to provide and continue with the work
+   This lays the foundation of distributed database (like cloud)
+   
+   
+   
+   
+Twelveth Rule 12:
+Non Subversion Rule
+   If low access is allowed to a system it should not be able to subvert or bypass integrity rules to change the data
+   (This means no matter how ever you are importing or exporting you can bypass the integrity rules)
+   This can be achieved by some sort of locking or encryprion
