@@ -5,6 +5,8 @@ Today I installed MySQL and learnt a few commands
 
 **show databases;**  -    displays the databases available
 
+**drop database (database_name)l**   - deletes the database
+
 **show tables;**   -   displays the tables of the database
 
 **use (database_name);**   -  to change the database
