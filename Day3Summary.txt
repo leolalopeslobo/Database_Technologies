@@ -1,0 +1,49 @@
+Day3:
+Constraints -> Data Validation -> This helps achieve 'Integrity of the Data' (Data Integrity)
+
+CREATE
+Primary Key
+Foreign Key
+Unique
+Not Null
+Check
+Enum
+
+ALTER --- MODIFY (used for any structural change)
+to add and remove constraints
+
+TRUNCATE (removes/deletes all the data in the table at once)
+Used to remove all the data from the table
+
+DROP ---- (deletes both table and its data)
+
+INSERT values
+UPDATE
+
+
+-------------------------------------------------------
+
+create table book
+(
+	bookid varchar(10) PRIMARY KEY,
+	bookname varchar(20),
+	authorid varchar(20),
+	category varchar(20),
+	cost int(20),
+	noofpages int(10),
+	rackid varchar(10),
+	bookstatus enum('A', 'NA', 'O'),
+	pushisherid varchar(10),
+	booklastissueddate date,
+	booklastissuedtime time,
+	foreign key(authorid) REFERENCES author(authorid)
+);
+
+
+create table author
+(
+	authorid varchar(10),
+	authorname varchar(30),
+	nationality varchar(20),
+	gender enum('M','F')
+);

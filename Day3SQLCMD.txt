@@ -1,0 +1,525 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 24
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac               |
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.03 sec)
+
+mysql> use cdac;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_cdac |
++----------------+
+| fund           |
+| investor       |
++----------------+
+2 rows in set (0.02 sec)
+
+mysql> use cdac_db;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| book              |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> drop cdac
+    -> ^C
+mysql> drop cdac;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cdac' at line 1
+mysql> drop database cdac;
+Query OK, 2 rows affected (0.04 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use cdac_db;
+Database changed
+mysql> show tables
+    -> ^C
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| book              |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> desc table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> desc author;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| authorid    | varchar(10)   | NO   | PRI | NULL    |       |
+| authorname  | varchar(30)   | YES  | UNI | NULL    |       |
+| nationality | varchar(20)   | YES  |     | NULL    |       |
+| gender      | enum('M','F') | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | NULL             | India       | M      |
+| A005     | NULL             | India       | M      |
+| A006     | NULL             | NULL        | F      |
++----------+------------------+-------------+--------+
+6 rows in set (0.01 sec)
+
+mysql> DELETE FROM author where authorname = null;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | NULL             | India       | M      |
+| A005     | NULL             | India       | M      |
+| A006     | NULL             | NULL        | F      |
++----------+------------------+-------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> DELETE FROM author where authorname is null;
+Query OK, 3 rows affected (0.00 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
++----------+------------------+-------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> desc author;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| authorid    | varchar(10)   | NO   | PRI | NULL    |       |
+| authorname  | varchar(30)   | YES  | UNI | NULL    |       |
+| nationality | varchar(20)   | YES  |     | NULL    |       |
+| gender      | enum('M','F') | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table author modify column nationality varchar(20) NOT NULL;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc author;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| authorid    | varchar(10)   | NO   | PRI | NULL    |       |
+| authorname  | varchar(30)   | YES  | UNI | NULL    |       |
+| nationality | varchar(20)   | NO   |     | NULL    |       |
+| gender      | enum('M','F') | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into author values ('A004','Mukul Deva', NULL, 'M');
+ERROR 1048 (23000): Column 'nationality' cannot be null
+mysql>
+mysql>
+mysql>
+mysql> alter table author modify column gender enum('M','F') DEFAULT 'M';
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc author;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| authorid    | varchar(10)   | NO   | PRI | NULL    |       |
+| authorname  | varchar(30)   | YES  | UNI | NULL    |       |
+| nationality | varchar(20)   | NO   |     | NULL    |       |
+| gender      | enum('M','F') | YES  |     | M       |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
++----------+------------------+-------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into author (authorid, authorname, nationality) Values ('A004','Mukul Deva','Singapore');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | Mukul Deva       | Singapore   | M      |
++----------+------------------+-------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into author Values ('A005','Devaki Pandit','Singapore','f');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | Mukul Deva       | Singapore   | M      |
+| A005     | Devaki Pandit    | Singapore   | F      |
++----------+------------------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> alter table author modify column nationality varchar(20) CHECK(nationality='India' or nationality='Singapore');
+ERROR 3819 (HY000): Check constraint 'author_chk_1' is violated.
+mysql> alter table author modify column nationality varchar(20) CHECK(nationality='India' or nationality='Singapore'or nationality='UK');
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql>
+mysql> show create table author;
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table
+
+
+
+
+
+                               |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| author | CREATE TABLE `author` (
+  `authorid` varchar(10) NOT NULL,
+  `authorname` varchar(30) DEFAULT NULL,
+  `nationality` varchar(20) DEFAULT NULL,
+  `gender` enum('M','F') DEFAULT 'M',
+  PRIMARY KEY (`authorid`),
+  UNIQUE KEY `authorname` (`authorname`),
+  CONSTRAINT `author_chk_1` CHECK (((`nationality` = _utf8mb4'India') or (`nationality` = _utf8mb4'Singapore') or (`nationality` = _utf8mb4'UK')))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | Mukul Deva       | Singapore   | M      |
+| A005     | Devaki Pandit    | Singapore   | F      |
++----------+------------------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into author Values ('A006','Malinga Jala','Canada','M');
+ERROR 3819 (HY000): Check constraint 'author_chk_1' is violated.
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> update author set authorname = 'Devika Rai';
+ERROR 1062 (23000): Duplicate entry 'Devika Rai' for key 'author.authorname'
+mysql>
+mysql>
+mysql> alter table author modify column authorname varchar(20);
+Query OK, 5 rows affected (0.20 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql>
+mysql>
+mysql> update author set authorname = 'Devika Rai';
+ERROR 1062 (23000): Duplicate entry 'Devika Rai' for key 'author.authorname'
+mysql> de
+    -> ^C
+mysql>
+mysql>
+mysql>
+mysql> desc author;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| authorid    | varchar(10)   | NO   | PRI | NULL    |       |
+| authorname  | varchar(20)   | YES  | UNI | NULL    |       |
+| nationality | varchar(20)   | YES  |     | NULL    |       |
+| gender      | enum('M','F') | YES  |     | M       |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.05 sec)
+
+mysql>
+mysql>
+mysql> create table new table as select * from author;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as select * from author' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> create table newtable as select * from author;
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> desc newtable
+    -> desc newtable;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc newtable' at line 2
+mysql> desc newtable;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| authorid    | varchar(10)   | NO   |     | NULL    |       |
+| authorname  | varchar(20)   | YES  |     | NULL    |       |
+| nationality | varchar(20)   | YES  |     | NULL    |       |
+| gender      | enum('M','F') | YES  |     | M       |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.03 sec)
+
+mysql> alter table newtable rename newauthors;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc newtable;
+ERROR 1146 (42S02): Table 'cdac_db.newtable' doesn't exist
+mysql> desc newauthors;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| authorid    | varchar(10)   | NO   |     | NULL    |       |
+| authorname  | varchar(20)   | YES  |     | NULL    |       |
+| nationality | varchar(20)   | YES  |     | NULL    |       |
+| gender      | enum('M','F') | YES  |     | M       |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> ^C
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select * from newauthorss;
+ERROR 1146 (42S02): Table 'cdac_db.newauthorss' doesn't exist
+mysql> select * from newauthors;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | Mukul Deva       | Singapore   | M      |
+| A005     | Devaki Pandit    | Singapore   | F      |
++----------+------------------+-------------+--------+
+5 rows in set (0.01 sec)
+
+mysql>
+mysql>
+mysql> update newauthors set authorname = 'Devika Rai';
+Query OK, 5 rows affected (0.02 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from newauthors;
++----------+------------+-------------+--------+
+| authorid | authorname | nationality | gender |
++----------+------------+-------------+--------+
+| A001     | Devika Rai | India       | M      |
+| A002     | Devika Rai | India       | M      |
+| A003     | Devika Rai | UK          | F      |
+| A004     | Devika Rai | Singapore   | M      |
+| A005     | Devika Rai | Singapore   | F      |
++----------+------------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> update newauthors set authorname = 'Chetan Bhagat' where authorid = 'A001'
+;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from newauthors;
++----------+---------------+-------------+--------+
+| authorid | authorname    | nationality | gender |
++----------+---------------+-------------+--------+
+| A001     | Chetan Bhagat | India       | M      |
+| A002     | Devika Rai    | India       | M      |
+| A003     | Devika Rai    | UK          | F      |
+| A004     | Devika Rai    | Singapore   | M      |
+| A005     | Devika Rai    | Singapore   | F      |
++----------+---------------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> alter table newauthors DROP COLUMN gender;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from newauthors;
++----------+---------------+-------------+
+| authorid | authorname    | nationality |
++----------+---------------+-------------+
+| A001     | Chetan Bhagat | India       |
+| A002     | Devika Rai    | India       |
+| A003     | Devika Rai    | UK          |
+| A004     | Devika Rai    | Singapore   |
+| A005     | Devika Rai    | Singapore   |
++----------+---------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table newauthors ADD COLUMN age int(20);
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from newauthors;
++----------+---------------+-------------+------+
+| authorid | authorname    | nationality | age  |
++----------+---------------+-------------+------+
+| A001     | Chetan Bhagat | India       | NULL |
+| A002     | Devika Rai    | India       | NULL |
+| A003     | Devika Rai    | UK          | NULL |
+| A004     | Devika Rai    | Singapore   | NULL |
+| A005     | Devika Rai    | Singapore   | NULL |
++----------+---------------+-------------+------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> delete from newauthors where nationality = 'Singapore';
+Query OK, 2 rows affected (0.02 sec)
+
+mysql> select * from newauthors;
++----------+---------------+-------------+------+
+| authorid | authorname    | nationality | age  |
++----------+---------------+-------------+------+
+| A001     | Chetan Bhagat | India       | NULL |
+| A002     | Devika Rai    | India       | NULL |
+| A003     | Devika Rai    | UK          | NULL |
++----------+---------------+-------------+------+
+3 rows in set (0.00 sec)
+
+mysql> delete from newauthors;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select * from newauthors;
+Empty set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| book              |
+| newauthors        |
++-------------------+
+3 rows in set (0.03 sec)
+
+mysql> drop tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| book              |
+| newauthors        |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| book              |
+| newauthors        |
++-------------------+
+3 rows in set (0.02 sec)
+
+mysql> drop table newauthors;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| book              |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> ^C
+mysql>
+mysql>
+mysql>
