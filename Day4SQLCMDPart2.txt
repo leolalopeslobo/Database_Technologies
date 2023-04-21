@@ -1,0 +1,1674 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.02 sec)
+
+mysql> use cdac_db;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| author1           |
+| book              |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> drop table author1;
+ERROR 1317 (70100): ERROR 1317 (70100): Query execution was interrupted
+mysql>
+mysql>
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | Mukul Deva       | Singapore   | M      |
+| A005     | Devaki Pandit    | Singapore   | F      |
++----------+------------------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from author where gender = 'm';
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A004     | Mukul Deva       | Singapore   | M      |
++----------+------------------+-------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> create table employee
+    -> (
+    ->  EmployeeId varchar(10) Primary Key,
+    ->  eFName varchar(20),
+    ->  eLName varchar(20),
+    ->  Sex enum('M','F'),
+    ->  Designation varchar(20),
+    ->  DeptId varchar(10),
+    ->  LocationID varchar(10),
+    ->  Salary int(20),
+    ->  ReportTo varchar(10)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.06 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| author1           |
+| book              |
+| employee          |
++-------------------+
+4 rows in set (0.00 sec)
+
+mysql> desc employee;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| EmployeeId  | varchar(10)   | NO   | PRI | NULL    |       |
+| eFName      | varchar(20)   | YES  |     | NULL    |       |
+| eLName      | varchar(20)   | YES  |     | NULL    |       |
+| Sex         | enum('M','F') | YES  |     | NULL    |       |
+| Designation | varchar(20)   | YES  |     | NULL    |       |
+| DeptId      | varchar(10)   | YES  |     | NULL    |       |
+| LocationID  | varchar(10)   | YES  |     | NULL    |       |
+| Salary      | int           | YES  |     | NULL    |       |
+| ReportTo    | varchar(10)   | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+9 rows in set (0.02 sec)
+
+mysql> alter table employee add column DOJ date AFTER Sex;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| EmployeeId  | varchar(10)   | NO   | PRI | NULL    |       |
+| eFName      | varchar(20)   | YES  |     | NULL    |       |
+| eLName      | varchar(20)   | YES  |     | NULL    |       |
+| Sex         | enum('M','F') | YES  |     | NULL    |       |
+| DOJ         | date          | YES  |     | NULL    |       |
+| Designation | varchar(20)   | YES  |     | NULL    |       |
+| DeptId      | varchar(10)   | YES  |     | NULL    |       |
+| LocationID  | varchar(10)   | YES  |     | NULL    |       |
+| Salary      | int           | YES  |     | NULL    |       |
+| ReportTo    | varchar(10)   | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> ^C
+mysql>
+mysql>
+mysql> insert into employee values ('Amar','Sharma','m','2018/03/25','General Manager','D002','L003',12000,'E002');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into employee values ('E001','Amar','Sharma','m','2018/03/25','General Manager','D002','L003',12000,'E002');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> select * from employee;
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee values ('E0011','Rama','Joshi','m','2017/10/01','Sweeper','D003','L003',7800,'E002');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> select * from employee;
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama   | Joshi  | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employee values ('E002','Janki','Srivastava','F','2015/09/01','Librarian','D001','L001',14000,'null');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> select * from employee;
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama   | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki  | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee values ('E003','Kishan','Rane','M','2017/10/01','Sweeper','D003','L003',8000,'null');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from employee;
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama   | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki  | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> insert into employee values ('E004','Romila','Arora','L','2014/01/01','Director','D004','L001',21000,'E004');
+ERROR 1265 (01000): Data truncated for column 'Sex' at row 1
+mysql> insert into employee values ('E004','Romila','Arora','F','2014/01/01','Director','D004','L001',21000,'E004');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from employee;
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama   | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki  | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee values ('E006','Chandrakant','Bakshi','M','2018/03/25','Accountant','D002','L003',13700,'E002');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> insert into employee values ('E007','Kajal','Oza','f','2018/03/25','Accountant','D002','L003',11000,'E002');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> insert into employee values ('E008','Devaki','Pandit','F','2018/03/25','Accountant','D002','L003',14100,'E002');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+8 rows in set (0.00 sec)
+
+mysql> insert into employee values ('E009','Raman','Iyyer','M','2018/03/25','Director','D002','L003',52000,null);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employee where designation = 'accountant';
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName | Sex  | DOJ        | Designation | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| E006       | Chandrakant | Bakshi | M    | 2018-03-25 | Accountant  | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza    | F    | 2018-03-25 | Accountant  | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit | F    | 2018-03-25 | Accountant  | D002   | L003       |  14100 | E002     |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from book;
++--------+--------------------------+----------+----------+------+-----------+--------+------------+-------------+--------------------+--------------------+
+| bookid | bookname                 | authorid | category | cost | noofpages | rackid | bookstatus | pushisherid | booklastissueddate | booklastissuedtime |
++--------+--------------------------+----------+----------+------+-----------+--------+------------+-------------+--------------------+--------------------+
+| B001   | One Night at Call Centre | A002     | Fiction  |  300 |       240 | R001   | A          | P001        | 2020-05-22     | 14:00:00           |
++--------+--------------------------+----------+----------+------+-----------+--------+------------+-------------+--------------------+--------------------+
+1 row in set (0.01 sec)
+
+mysql> truncate table book;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from book;
+Empty set (0.00 sec)
+
+mysql> insert into book values('B011','Lashkar','Fiction',375,325,A,'2020/05/07','11:01');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql>
+mysql> alter table book drop column authorid;
+ERROR 1828 (HY000): Cannot drop column 'authorid': needed in a foreign key constraint 'book_ibfk_1'
+mysql> ;
+ERROR:
+No query specified
+
+mysql>
+mysql> drop table book;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| author1           |
+| employee          |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> create table book
+    -> (
+    -> BookId varchar(10),
+    -> BookName varchar(60),
+    -> Category varchar(20),
+    -> Cost int(10),
+    -> NoOfPages int(10),
+    -> BookLastIssuedDate date,
+    -> BookLastIssuedTime time
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> insert into book values('B001','The World is Flat','Non-Fiction',400,448,A,'2020/02/01','12:23');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql>
+mysql>
+mysql> alter table book add column BookStatus enum ('NA','A','O') AFTER NoOfPages;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into book values('B001','The World is Flat','Non-Fiction',400,448,A,'2020/02/01','12:23');
+ERROR 1054 (42S22): Unknown column 'A' in 'field list'
+mysql> insert into book values('B001','The World is Flat','Non-Fiction',400,448,'A','2020/02/01','12:23');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> select * from book;
++--------+-------------------+-------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName          | Category    | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+-------------------+-------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat | Non-Fiction |  400 |       448 | A          | 2020-02-01         | 12:23:00           |
++--------+-------------------+-------------+------+-----------+------------+--------------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into book values('B002','On Wings of Eagles','Non-Fiction',359,624,'NA','2019/12/15','11:33');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into book values('B003','Rich Dad Poor Daa','Self-Help',359,624,'NA','2020/01/25','10:11');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into book values('B004','Megaliving','Fiction',118,198,'A','2019/11/10','13:27');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into book values('B005','A' Brief History of Time','Science Fiction',185,256,A,'2020/03/22','09:49');
+    '>
+    '> ^C
+mysql> insert into book values('B005','A Brief History of Time','Science Fiction',185,256,'A','2020/03/22','09:49');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into book values('B006','Murder On The Oriental Express','Mystery',155,256,'NA','2019/10/12','14:05');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into book values('B007','Five Point Someone','Fiction',118,270,'A','2020/01/04','15:01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00
+     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into book values('B008','The Incredible Banker','Fiction',186,320,'A','2020/05/07','11:01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> ^C
+mysql> insert into book values('B009','A Brief History of Humankind','Fiction',125,450,'A','2020/05/07','11:01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into book values('B010','Bankstur','Fiction',375,450,'A','2020/05/07','11:01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00
+     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+10 rows in set (0.00 sec)
+
+mysql> insert into book values('B011','Lashkar','Fiction',375,325,'A','2020/05/07','11:01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+11 rows in set (0.00 sec)
+
+mysql> select BookId, BookName, Category, Cost from book;
++--------+--------------------------------+-----------------+------+
+| BookId | BookName                       | Category        | Cost |
++--------+--------------------------------+-----------------+------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |
+| B004   | Megaliving                     | Fiction         |  118 |
+| B005   | A Brief History of Time        | Science Fiction |  185 |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |
+| B007   | Five Point Someone             | Fiction         |  118 |
+| B008   | The Incredible Banker          | Fiction         |  186 |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |
+| B010   | Bankstur                       | Fiction         |  375 |
+| B011   | Lashkar                        | Fiction         |  375 |
++--------+--------------------------------+-----------------+------+
+11 rows in set (0.00 sec)
+
+mysql> select BookId, BookName as Name, Category, Cost 'Book Cost' from book;
++--------+--------------------------------+-----------------+-----------+
+| BookId | Name                           | Category        | Book Cost |
++--------+--------------------------------+-----------------+-----------+
+| B001   | The World is Flat              | Non-Fiction     |       400 |
+| B002   | On Wings of Eagles             | Non-Fiction     |       359 |
+| B003   | Rich Dad Poor Daa              | Self-Help       |       359 |
+| B004   | Megaliving                     | Fiction         |       118 |
+| B005   | A Brief History of Time        | Science Fiction |       185 |
+| B006   | Murder On The Oriental Express | Mystery         |       155 |
+| B007   | Five Point Someone             | Fiction         |       118 |
+| B008   | The Incredible Banker          | Fiction         |       186 |
+| B009   | A Brief History of Humankind   | Fiction         |       125 |
+| B010   | Bankstur                       | Fiction         |       375 |
+| B011   | Lashkar                        | Fiction         |       375 |
++--------+--------------------------------+-----------------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> select BookId, BookName as Name, Category, Cost Book Cost from book;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'Cost from book' at line 1
+mysql> select BookId, BookName as Name, Category, Cost as Book Cost from book;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'Cost from book' at line 1
+mysql>
+mysql>
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employee where designation = 'Accountant';
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName | Sex  | DOJ        | Designation | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| E006       | Chandrakant | Bakshi | M    | 2018-03-25 | Accountant  | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza    | F    | 2018-03-25 | Accountant  | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit | F    | 2018-03-25 | Accountant  | D002   | L003       |  14100 | E002     |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employee where designation = 'Accountant' or designation = 'director';
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName | Sex  | DOJ        | Designation | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| E004       | Romila      | Arora  | F    | 2014-01-01 | Director    | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi | M    | 2018-03-25 | Accountant  | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza    | F    | 2018-03-25 | Accountant  | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit | F    | 2018-03-25 | Accountant  | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer  | M    | 2018-03-25 | Director    | D002   | L003       |  52000 | NULL     |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employee where designation = 'Accountant' or designation = 'director' or designation = 'librarian';
++------------+-------------+------------+------+------------+-------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-------------+--------+------------+--------+----------+
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian   | D001   | L001       |  14000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director    | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant  | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant  | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant  | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director    | D002   | L003       |  52000 | NULL     |
++------------+-------------+------------+------+------------+-------------+--------+------------+--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from employee where designation IN ('Accountant','director','librarian');
++------------+-------------+------------+------+------------+-------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-------------+--------+------------+--------+----------+
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian   | D001   | L001       |  14000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director    | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant  | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant  | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant  | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director    | D002   | L003       |  52000 | NULL     |
++------------+-------------+------------+------+------------+-------------+--------+------------+--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> insert into book values('b012','Lashkar','Fiction',375,325,'A','2020/05/07','11:01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     |
+| b012   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+12 rows in set (0.00 sec)
+
+mysql> delete table book where bookid = 'b012';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'table book where bookid = 'b012'' at line 1
+mysql>
+mysql>
+mysql>
+mysql> delete from book where bookid = 'b012';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employee where designation = 'Accountant' or designation = 'director' and SEX = 'M';
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName | Sex  | DOJ        | Designation | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| E006       | Chandrakant | Bakshi | M    | 2018-03-25 | Accountant  | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza    | F    | 2018-03-25 | Accountant  | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit | F    | 2018-03-25 | Accountant  | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer  | M    | 2018-03-25 | Director    | D002   | L003       |  52000 | NULL     |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee where designation = 'Accountant' and SEX = 'M';
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName | Sex  | DOJ        | Designation | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+| E006       | Chandrakant | Bakshi | M    | 2018-03-25 | Accountant  | D002   | L003       |  13700 | E002     |
++------------+-------------+--------+------+------------+-------------+--------+------------+--------+----------+
+1 row in set (0.00 sec)
+
+mysql> select BookId, BookName as Name, Category, Cost 'Book Cost', NoOfpages, BooklastIssuedDaTE from book;
++--------+--------------------------------+-----------------+-----------+-----------+--------------------+
+| BookId | Name                           | Category        | Book Cost | NoOfpages | BooklastIssuedDaTE |
++--------+--------------------------------+-----------------+-----------+-----------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |       400 |       448 | 2020-02-01         |
+| B002   | On Wings of Eagles             | Non-Fiction     |       359 |       624 | 2019-12-15         |
+| B003   | Rich Dad Poor Daa              | Self-Help       |       359 |       624 | 2020-01-25         |
+| B004   | Megaliving                     | Fiction         |       118 |       198 | 2019-11-10         |
+| B005   | A Brief History of Time        | Science Fiction |       185 |       256 | 2020-03-22         |
+| B006   | Murder On The Oriental Express | Mystery         |       155 |       256 | 2019-10-12         |
+| B007   | Five Point Someone             | Fiction         |       118 |       270 | 2020-01-04         |
+| B008   | The Incredible Banker          | Fiction         |       186 |       320 | 2020-05-07         |
+| B009   | A Brief History of Humankind   | Fiction         |       125 |       450 | 2020-05-07         |
+| B010   | Bankstur                       | Fiction         |       375 |       450 | 2020-05-07         |
+| B011   | Lashkar                        | Fiction         |       375 |       325 | 2020-05-07         |
++--------+--------------------------------+-----------------+-----------+-----------+--------------------+
+11 rows in set (0.00 sec)
+
+mysql> select BookId, BookName as Name, Category, Cost 'Book Cost', NoOfpages, BooklastIssuedDaTE from book WHERE category = 'fiction' and year(booklastissueddate) = 2020;
++--------+------------------------------+----------+-----------+-----------+--------------------+
+| BookId | Name                         | Category | Book Cost | NoOfpages | BooklastIssuedDaTE |
++--------+------------------------------+----------+-----------+-----------+--------------------+
+| B007   | Five Point Someone           | Fiction  |       118 |       270 | 2020-01-04         |
+| B008   | The Incredible Banker        | Fiction  |       186 |       320 | 2020-05-07         |
+| B009   | A Brief History of Humankind | Fiction  |       125 |       450 | 2020-05-07         |
+| B010   | Bankstur                     | Fiction  |       375 |       450 | 2020-05-07         |
+| B011   | Lashkar                      | Fiction  |       375 |       325 | 2020-05-07         |
++--------+------------------------------+----------+-----------+-----------+--------------------+
+5 rows in set (0.00 sec)
+
+mysql> select BookId, BookName as Name, Category, Cost 'Book Cost', NoOfpages, BooklastIssuedDaTE from book WHERE category = 'fiction' and year(booklastissueddate) = 2020 and Cost < 200;
++--------+------------------------------+----------+-----------+-----------+--------------------+
+| BookId | Name                         | Category | Book Cost | NoOfpages | BooklastIssuedDaTE |
++--------+------------------------------+----------+-----------+-----------+--------------------+
+| B007   | Five Point Someone           | Fiction  |       118 |       270 | 2020-01-04         |
+| B008   | The Incredible Banker        | Fiction  |       186 |       320 | 2020-05-07         |
+| B009   | A Brief History of Humankind | Fiction  |       125 |       450 | 2020-05-07         |
++--------+------------------------------+----------+-----------+-----------+--------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employee where designation NOT IN ('Accountant','librarian');
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama   | Joshi  | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E003       | Kishan | Rane   | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila | Arora  | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E009       | Raman  | Iyyer  | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
++------------+--------+--------+------+------------+-----------------+--------+------------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00
+     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:0r
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:0r     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+11 rows in set (0.00 sec)
+       alter
+mysql>                                                                                                               select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+
+11 rows in set (0.00 sec)
+
+mysql> alter table book add column AuthorId varchar(10);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     | NULL     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     | NULL     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     | NULL     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     | NULL     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     | NULL     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     | NULL     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     | NULL     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     | NULL     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> insert into book (AuthorId) values ('A001') where bookid = 'B001';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'where bookid = 'B001'' at line 1
+mysql>
+mysql>
+mysql> update table book set authoid = 'A001' where bookid = 'b001';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'table book set authoid = 'A001' where bookid = 'b001'' at line 1
+mysql>
+mysql>
+mysql> update book set authoid = 'A001' where bookid = 'b001';
+ERROR 1054 (42S22): Unknown column 'authoid' in 'field list'
+mysql> update book set authorid = 'A001' where bookid = 'b001';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update book set authoid = 'A002' where bookid = 'b002';
+ERROR 1054 (42S22): Unknown column 'authoid' in 'field list'
+mysql> update book set authorid = 'A002' where bookid = 'b002';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     | NULL     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     | NULL     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     | NULL     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     | NULL     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     | NULL     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     | NULL     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> update book set authorid = 'A003','A004','A005','A006','A007' where bookid = 'b003','b004','b005','b006','b007';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near ''A004','A005','A006','A007' where bookid = 'b003','b004','b005','b006','b007'' at line 1
+mysql> update book set authorid values ('A003','A004','A005','A006','A007') where bookid IN ('b003','b004','b005','b006','b007');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'values ('A003','A004','A005','A006','A007') where bookid I064 (42000): You have an error in your SQL syntax; c
+mysql> update book set authorid = 'A002' where bookid = 'b00';
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> update book set authorid = 'A003' where bookid = 'b003';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update book set authorid = 'A004' where bookid = 'b004';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update book set authorid = 'A005' where bookid = 'b005';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update book set authorid = 'A006' where bookid = 'b006';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update book set authorid = 'A007' where bookid = 'b007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     | A003     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     | A004     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     | A005     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     | A006     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     | A007     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     | NULL     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> update book set authorid = 'A008' where bookid = 'b0011';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update book set authorid = 'A009' where bookid = 'b0012';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     | A003     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     | A004     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     | A005     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     | A006     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     | A007     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     | NULL     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> update book set authorid = 'A008' where bookid = 'b011';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     | A003     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     | A004     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     | A005     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     | A006     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     | A007     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     | A008     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> update book set authorid = 'A009' where bookid = 'b0012';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update book set authorid = 'A009' where bookid = 'b012';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update book set authorid = null where bookid = 'b011';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     | A003     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     | A004     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     | A005     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     | A006     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     | A007     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     | NULL     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> update book set authorid = 'A011' where bookid = 'b008';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update book set authorid = 'A012' where bookid = 'b009';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00     | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00     | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00     | A003     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00     | A004     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00     | A005     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00     | A006     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00     | A007     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00     | A011     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00     | A012     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00     | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00     | NULL     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> select BookId, BookName as Name, Category, Cost 'Book Cost', NoOfpages, BooklastIssuedDaTE, AUTHORID from book where authorid = Null;
+Empty set (0.00 sec)
+
+mysql> select BookId, BookName as Name, Category, Cost 'Book Cost', NoOfpages, BooklastIssuedDaTE, AUTHORID from book where authorid IS Null;
++--------+----------+----------+-----------+-----------+--------------------+----------+
+| BookId | Name     | Category | Book Cost | NoOfpages | BooklastIssuedDaTE | AUTHORID |
++--------+----------+----------+-----------+-----------+--------------------+----------+
+| B010   | Bankstur | Fiction  |       375 |       450 | 2020-05-07         | NULL     |
+| B011   | Lashkar  | Fiction  |       375 |       325 | 2020-05-07         | NULL     |
++--------+----------+----------+-----------+-----------+--------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select BookId, BookName as Name, Category, Cost 'Book Cost', NoOfpages, BooklastIssuedDaTE, AUTHORID from book where authorid IS NOT Null;
++--------+--------------------------------+-----------------+-----------+-----------+--------------------+----------+
+| BookId | Name                           | Category        | Book Cost | NoOfpages | BooklastIssuedDaTE | AUTHORID |
++--------+--------------------------------+-----------------+-----------+-----------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |       400 |       448 | 2020-02-01         | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |       359 |       624 | 2019-12-15         | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |       359 |       624 | 2020-01-25         | A003     |
+| B004   | Megaliving                     | Fiction         |       118 |       198 | 2019-11-10         | A004     |
+| B005   | A Brief History of Time        | Science Fiction |       185 |       256 | 2020-03-22         | A005     |
+| B006   | Murder On The Oriental Express | Mystery         |       155 |       256 | 2019-10-12         | A006     |
+| B007   | Five Point Someone             | Fiction         |       118 |       270 | 2020-01-04         | A007     |
+| B008   | The Incredible Banker          | Fiction         |       186 |       320 | 2020-05-07         | A011     |
+| B009   | A Brief History of Humankind   | Fiction         |       125 |       450 | 2020-05-07         | A012     |
++--------+--------------------------------+-----------------+-----------+-----------+--------------------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select Cost from book where cost >= 185;
++------+
+| Cost |
++------+
+|  400 |
+|  359 |
+|  359 |
+|  185 |
+|  186 |
+|  375 |
+|  375 |
++------+
+7 rows in set (0.00 sec)
+
+mysql> select BookName, Cost from book where cost <= 185;
++--------------------------------+------+
+| BookName                       | Cost |
++--------------------------------+------+
+| Megaliving                     |  118 |
+| A Brief History of Time        |  185 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| A Brief History of Humankind   |  125 |
++--------------------------------+------+
+5 rows in set (0.00 sec)
+
+mysql> select BookName, Cost from book where cost < 185;
++--------------------------------+------+
+| BookName                       | Cost |
++--------------------------------+------+
+| Megaliving                     |  118 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| A Brief History of Humankind   |  125 |
++--------------------------------+------+
+4 rows in set (0.00 sec)
+
+mysql> select BookName, Cost from book where cost > 100 and cost < 300;
++--------------------------------+------+
+| BookName                       | Cost |
++--------------------------------+------+
+| Megaliving                     |  118 |
+| A Brief History of Time        |  185 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| The Incredible Banker          |  186 |
+| A Brief History of Humankind   |  125 |
++--------------------------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select BookName, Cost from book where cost BETWEEN 100 and 300;
++--------------------------------+------+
+| BookName                       | Cost |
++--------------------------------+------+
+| Megaliving                     |  118 |
+| A Brief History of Time        |  185 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| The Incredible Banker          |  186 |
+| A Brief History of Humankind   |  125 |
++--------------------------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select BookName, Cost from book where cost BETWEEN 118 and 300;
++--------------------------------+------+
+| BookName                       | Cost |
++--------------------------------+------+
+| Megaliving                     |  118 |
+| A Brief History of Time        |  185 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| The Incredible Banker          |  186 |
+| A Brief History of Humankind   |  125 |
++--------------------------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select BookName, Cost from book where cost BETWEEN 118 and 155;
++--------------------------------+------+
+| BookName                       | Cost |
++--------------------------------+------+
+| Megaliving                     |  118 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| A Brief History of Humankind   |  125 |
++--------------------------------+------+
+4 rows in set (0.00 sec)
+
+mysql> select 'APPROXIMATION' as 'Next Topic';
++---------------+
+| Next Topic    |
++---------------+
+| APPROXIMATION |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> desc employee;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| EmployeeId  | varchar(10)   | NO   | PRI | NULL    |       |
+| eFName      | varchar(20)   | YES  |     | NULL    |       |
+| eLName      | varchar(20)   | YES  |     | NULL    |       |
+| Sex         | enum('M','F') | YES  |     | NULL    |       |
+| DOJ         | date          | YES  |     | NULL    |       |
+| Designation | varchar(20)   | YES  |     | NULL    |       |
+| DeptId      | varchar(10)   | YES  |     | NULL    |       |
+| LocationID  | varchar(10)   | YES  |     | NULL    |       |
+| Salary      | int           | YES  |     | NULL    |       |
+| ReportTo    | varchar(10)   | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+10 rows in set (0.01 sec)
+
+mysql> select efname from employee where efname LIKE 'A%';
++--------+
+| efname |
++--------+
+| Amar   |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select efname from employee where efname LIKE 'R%';
++--------+
+| efname |
++--------+
+| Rama   |
+| Romila |
+| Raman  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select efname from employee where efname LIKE '%jal%';
++--------+
+| efname |
++--------+
+| Kajal  |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select efname from employee where efname LIKE '%n';
++--------+
+| efname |
++--------+
+| Kishan |
+| Raman  |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select efname from employee where efname LIKE '_____';
++--------+
+| efname |
++--------+
+| Janki  |
+| Kajal  |
+| Raman  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select efname from employee where efname Not LIKE '_____';
++-------------+
+| efname      |
++-------------+
+| Amar        |
+| Rama        |
+| Kishan      |
+| Romila      |
+| Chandrakant |
+| Devaki      |
++-------------+
+6 rows in set (0.00 sec)
+
+mysql> select efname, elname, salary from employee;
++-------------+------------+--------+
+| efname      | elname     | salary |
++-------------+------------+--------+
+| Amar        | Sharma     |  12000 |
+| Rama        | Joshi      |   7800 |
+| Janki       | Srivastava |  14000 |
+| Kishan      | Rane       |   8000 |
+| Romila      | Arora      |  21000 |
+| Chandrakant | Bakshi     |  13700 |
+| Kajal       | Oza        |  11000 |
+| Devaki      | Pandit     |  14100 |
+| Raman       | Iyyer      |  52000 |
++-------------+------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select efname, elname, salary from employee order by salary;
++-------------+------------+--------+
+| efname      | elname     | salary |
++-------------+------------+--------+
+| Rama        | Joshi      |   7800 |
+| Kishan      | Rane       |   8000 |
+| Kajal       | Oza        |  11000 |
+| Amar        | Sharma     |  12000 |
+| Chandrakant | Bakshi     |  13700 |
+| Janki       | Srivastava |  14000 |
+| Devaki      | Pandit     |  14100 |
+| Romila      | Arora      |  21000 |
+| Raman       | Iyyer      |  52000 |
++-------------+------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select efname, elname, salary from employee order by salary desc;
++-------------+------------+--------+
+| efname      | elname     | salary |
++-------------+------------+--------+
+| Raman       | Iyyer      |  52000 |
+| Romila      | Arora      |  21000 |
+| Devaki      | Pandit     |  14100 |
+| Janki       | Srivastava |  14000 |
+| Chandrakant | Bakshi     |  13700 |
+| Amar        | Sharma     |  12000 |
+| Kajal       | Oza        |  11000 |
+| Kishan      | Rane       |   8000 |
+| Rama        | Joshi      |   7800 |
++-------------+------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select '2-Level Sorting' as 'Next Topic';
++-----------------+
+| Next Topic      |
++-----------------+
+| 2-Level Sorting |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select efname, elname, designation, salary from employee;
++-------------+------------+-----------------+--------+
+| efname      | elname     | designation     | salary |
++-------------+------------+-----------------+--------+
+| Amar        | Sharma     | General Manager |  12000 |
+| Rama        | Joshi      | Sweeper         |   7800 |
+| Janki       | Srivastava | Librarian       |  14000 |
+| Kishan      | Rane       | Sweeper         |   8000 |
+| Romila      | Arora      | Director        |  21000 |
+| Chandrakant | Bakshi     | Accountant      |  13700 |
+| Kajal       | Oza        | Accountant      |  11000 |
+| Devaki      | Pandit     | Accountant      |  14100 |
+| Raman       | Iyyer      | Director        |  52000 |
++-------------+------------+-----------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select '1st Sorting on Designation', '2nd Sorting on Salary' as 'Task', NUll;
++----------------------------+-----------------------+------+
+| 1st Sorting on Designation | Task                  | NULL |
++----------------------------+-----------------------+------+
+| 1st Sorting on Designation | 2nd Sorting on Salary | NULL |
++----------------------------+-----------------------+------+
+1 row in set (0.00 sec)
+
+mysql> select '1st Sorting on Designation' as 'Task' and 2nd Sorting on Salary' as NUll;
+    '> ^C
+mysql> select '1st Sorting on Designation' as 'Task' , 2nd Sorting on Salary' as NUll;
+    '>
+    '>
+    '> ^C
+mysql> select efname, elname, designation, salary from employee order by designation, salary;
++-------------+------------+-----------------+--------+
+| efname      | elname     | designation     | salary |
++-------------+------------+-----------------+--------+
+| Kajal       | Oza        | Accountant      |  11000 |
+| Chandrakant | Bakshi     | Accountant      |  13700 |
+| Devaki      | Pandit     | Accountant      |  14100 |
+| Romila      | Arora      | Director        |  21000 |
+| Raman       | Iyyer      | Director        |  52000 |
+| Amar        | Sharma     | General Manager |  12000 |
+| Janki       | Srivastava | Librarian       |  14000 |
+| Rama        | Joshi      | Sweeper         |   7800 |
+| Kishan      | Rane       | Sweeper         |   8000 |
++-------------+------------+-----------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select 'Display only first 5 records' as 'msg';
++------------------------------+
+| msg                          |
++------------------------------+
+| Display only first 5 records |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee limit 5;
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E0011      | Rama   | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
+| E002       | Janki  | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update employee set employeeid = 'E013' where employeeid = 'E0011';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E013       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set employeeid = 'E010' where employeeid = 'E013';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> desc employee;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| EmployeeId  | varchar(10)   | NO   | PRI | NULL    |       |
+| eFName      | varchar(20)   | YES  |     | NULL    |       |
+| eLName      | varchar(20)   | YES  |     | NULL    |       |
+| Sex         | enum('M','F') | YES  |     | NULL    |       |
+| DOJ         | date          | YES  |     | NULL    |       |
+| Designation | varchar(20)   | YES  |     | NULL    |       |
+| DeptId      | varchar(10)   | YES  |     | NULL    |       |
+| LocationID  | varchar(10)   | YES  |     | NULL    |       |
+| Salary      | int           | YES  |     | NULL    |       |
+| ReportTo    | varchar(10)   | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> select * from employee limit 0,2;
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar   | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki  | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
++------------+--------+------------+------+------------+-----------------+--------+------------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set reportTo = NULL where employeeID = 'E001';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | NULL     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set reportTo = 'E002; where employeeID = 'E001';
+    '> update employee set reportTo = 'E002' where employeeID = 'E001';
+    '> ^C
+mysql> update employee set reportTo = 'E002' where employeeID = 'E001';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | null     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | null     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set reportTo = null; where employeeID = 'E002';
+Query OK, 8 rows affected (0.00 sec)
+Rows matched: 9  Changed: 8  Warnings: 0
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'where employeeID = 'E002'' at line 1
+mysql> update employee set reportTo = null where employeeID = 'E002';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> update employee set reportTo = null where employeeID = 'E003';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | NULL     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | NULL     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | NULL     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | NULL     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | NULL     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | NULL     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | NULL     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | NULL     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | NULL     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | NULL     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | NULL     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | NULL     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | NULL     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | NULL     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set reportTo = 'E002' where employeeID = 'E001';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | NULL     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | NULL     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | NULL     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | NULL     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | NULL     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | NULL     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set reportTo = 'E004' where employeeID = 'E004';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set reportTo = 'E002' where employeeID = 'E006';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set reportTo = 'E002' where employeeID = 'E007';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set reportTo = 'E002' where employeeID = 'E008';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | NULL     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | NULL     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | NULL     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set reportTo = 'E002' where employeeID = 'E010';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E002     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | D001   | L001       |  14000 | NULL     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | NULL     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | D002   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select efname, elname, salary from employee;
++-------------+------------+--------+
+| efname      | elname     | salary |
++-------------+------------+--------+
+| Amar        | Sharma     |  12000 |
+| Janki       | Srivastava |  14000 |
+| Kishan      | Rane       |   8000 |
+| Romila      | Arora      |  21000 |
+| Chandrakant | Bakshi     |  13700 |
+| Kajal       | Oza        |  11000 |
+| Devaki      | Pandit     |  14100 |
+| Raman       | Iyyer      |  52000 |
+| Rama        | Joshi      |   7800 |
++-------------+------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select max(salary) from employee;
++-------------+
+| max(salary) |
++-------------+
+|       52000 |
++-------------+
+1 row in set (0.02 sec)
+
+mysql> select min(salary) from employee;
++-------------+
+| min(salary) |
++-------------+
+|        7800 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from employee;
++-------------+
+| avg(salary) |
++-------------+
+|  17066.6667 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select salary from employee where salary limit > 52000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near '> 52000' at line 1
+mysql> select salary from employee where salary limit max(salary);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'max(salary)' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select max(salary(limit(min(salary), max(salary)))) from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for theright syntax to use near 'limit(min(salary), max(salary)))) from employee' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select efname, elname, salary from employee where salary < max(salary);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select efname, elname, salary from employee where salary < max(salary);
+ERROR 1111 (HY000): Invalid use of group function
+mysql>
+mysql>
+mysql>
+mysql> select salary from employee where salary < (select max(salary) from employee);
++--------+
+| salary |
++--------+
+|  12000 |
+|  14000 |
+|   8000 |
+|  21000 |
+|  13700 |
+|  11000 |
+|  14100 |
+|   7800 |
++--------+
+8 rows in set (0.00 sec)
+
+mysql> select efname, salary from employee where salary < (select max(salary) from employee);
++-------------+--------+
+| efname      | salary |
++-------------+--------+
+| Amar        |  12000 |
+| Janki       |  14000 |
+| Kishan      |   8000 |
+| Romila      |  21000 |
+| Chandrakant |  13700 |
+| Kajal       |  11000 |
+| Devaki      |  14100 |
+| Rama        |   7800 |
++-------------+--------+
+8 rows in set (0.00 sec)
+
+mysql> select max(salary) from employee where salary < (select max(salary) from employee);
++-------------+
+| max(salary) |
++-------------+
+|       21000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select 'Obtaining Second Highest Salary' as 'Task';
++---------------------------------+
+| Task                            |
++---------------------------------+
+| Obtaining Second Highest Salary |
++---------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from employee where salary < (select max(salary) from employee);
++-------------+
+| max(salary) |
++-------------+
+|       21000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select efname, salary from employee order by
+    -> ^C
+mysql>
+mysql>
+mysql> select efname, salary from employee order by salary;
++-------------+--------+
+| efname      | salary |
++-------------+--------+
+| Rama        |   7800 |
+| Kishan      |   8000 |
+| Kajal       |  11000 |
+| Amar        |  12000 |
+| Chandrakant |  13700 |
+| Janki       |  14000 |
+| Devaki      |  14100 |
+| Romila      |  21000 |
+| Raman       |  52000 |
++-------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select efname, salary from employee order by salary desc;
++-------------+--------+
+| efname      | salary |
++-------------+--------+
+| Raman       |  52000 |
+| Romila      |  21000 |
+| Devaki      |  14100 |
+| Janki       |  14000 |
+| Chandrakant |  13700 |
+| Amar        |  12000 |
+| Kajal       |  11000 |
+| Kishan      |   8000 |
+| Rama        |   7800 |
++-------------+--------+
+9 rows in set (0.00 sec)
+
+mysql>
