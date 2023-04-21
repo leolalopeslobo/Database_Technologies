@@ -1,0 +1,98 @@
+Day4:
+
+
+1) DDL Commands: (DDL - Data Definition Language)
+Cannot be Rolled Back
+
+- CREATE
+- ALTER
+- DROP
+- TRUNCATE
+
+
+2) DML Commands: (DML - Data Manipulation Language)
+These commands can be rolled back when autocommit is in manual mode i.e. set autocommit = 0;
+
+- INSERT
+- UPDATE
+- DELETE
+
+3) DCL Commands: (DCL - Data Control Language)
+
+- COMMIT (make permanent changes)
+- ROLLBACK (undo commands)
+- SAVEPOINT
+
+
+
+All DDL commands work as an Implicit Commit. So if a DDL command is encountered in between it will implicitly be commit
+Even all savepoints will go and the mode also automatically changes to 'automatic commit mode'
+
+
+
+--------------------
+Queries Learnt
+
+- LIKE
+- AS
+- SET
+- WHERE -- rows based on condition
+- IN used for multiple criterias (multiple ORs not for ANDs) 
+- NOT IN - works reverse of IN and excluding the mentioned criterias
+- IS is used with null
+- IS NOT
+- BETWEEN
+
+
+
+Creating copy of the table with data (but without keys/constraints)
+CREATE TABLE newauthor as SELECT * from author;
+
+Creating copy of the table only the structure (but with keys/constraints)
+create table author1 LIKE author;
+
+
+
+Rollbacks undos all the DML commands and only the immediate previous one
+
+
+Savepoint
+
+savepoint one
+update author1 set authorname = 'Chandbibi', where authorid = 'A001';
+
+savepoint two
+insert into author1 values('A006','Ashwini Bhatt','India', 'M');
+
+savepoint three;
+delete from author1 where authorid = 'A004';
+
+
+
+* - means all rows, all columns
+
+
+
+----------------------------------
+APPROXIMATION
+
+Wildcard characters
+% - this search is based on charaters
+_ - this search is based on length
+
+
+- LIKE
+- NOT LIKE
+- ORDER BY (Ascending)
+- ORDER BY ... DESC (Descending)
+- LIMIT
+
+-------------------------------------
+Joining Tables
+ Here the 'Foreign Key' helps in achieveing this
+
+1. Basic joining (SIMPLE JOIN, EQUIJOIN, PERFECT JOIN)
+2. Using JOIN and ON
+Working of JOIN, LEFT JOIN (means all the data from the left table), RIGHT JOIN (means all the data from the right table)
+And wherever there is not data found NULL is put there
+3. SELF JOIN
