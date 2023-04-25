@@ -1,4 +1,4 @@
-<h1>Learning More Queries</h1>
+<h1>Learning More Queries, Creating Users</h1>
 
 ---------------
 **distinct** - this give us the distinct/uniques values of an attribute
