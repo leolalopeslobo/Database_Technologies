@@ -1,0 +1,541 @@
+Microsoft Windows [Version 10.0.22621.1413]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\leola>mysql -u root -p
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 53
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac_ass           |
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.01 sec)
+
+mysql> use cdac_ass;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_cdac_ass |
++--------------------+
+| orders             |
+| salesman           |
++--------------------+
+2 rows in set (0.01 sec)
+
+mysql>
+mysql>
+mysql> exit
+Bye
+
+C:\Users\leola>mysql -u root -p --local_infile
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 54
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac_ass           |
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.01 sec)
+
+mysql> show schemas;
++--------------------+
+| Database           |
++--------------------+
+| cdac_ass           |
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> use cdac_ass;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_cdac_ass |
++--------------------+
+| orders             |
+| salesman           |
++--------------------+
+2 rows in set (0.01 sec)
+
+mysql> create table customer;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table customer(customer_id varchar(10), cust_name varchar(40), city varchar(20), grade int(10), salesman_id(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10))' at line1
+mysql>
+mysql>
+mysql>
+mysql> create table customer(customer_id varchar(10), cust_name varchar(40), city varchar(20), grade int(10), salesman_id(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10))' at line1
+mysql>
+mysql>
+mysql> create table customer(customer_id varchar(10), cust_name varchar(40), city varchar(20), grade int(10), salesman_id(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10))' at line1
+mysql>
+mysql>
+mysql>
+mysql> create table customer(customer_id varchar(10), cust_name varchar(40), city varchar(20), grade int(10), salesman_id(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10))' at line1
+mysql>
+mysql>
+mysql> create table customer
+    -> (
+    ->  customer_id varchar(10),
+    ->  cust_name varchar(40),
+    ->  city varchar(20),
+    ->  grade int(10),
+    ->  salesman_id(10)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10)
+)' at line 7
+mysql>
+mysql>
+mysql>
+mysql> create table customer
+    -> (
+    ->  customer_id varchar(10) PRIMARY KEY,
+    ->  cust_name varchar(40),
+    ->  city varchar(20),
+    ->  grade int(10),
+    ->  salesman_id(10)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10)
+)' at line 7
+mysql> create table customer(customer_id varchar(10), cust_name varchar(40), city varchar(20), grade int(10), salesman_id varchar(10));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql>
+mysql>
+mysql> load data local infile 'C:/Program Files/MySQL/customer.csv'
+    -> into table customer
+    -> fields terminated by ','
+    -> enclosed by '"'
+    -> lines terminated by '\n'
+    -> ignore 1 rows;
+ERROR 3948 (42000): Loading local data is disabled; this must be enabled on both the client and server sides
+mysql>
+mysql>
+mysql>  SET GLOBAL local_infile=1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> exit
+Bye
+
+C:\Users\leola>mysql -u root -p --local_infile=1
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 55
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use cdac_ass;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_cdac_ass |
++--------------------+
+| customer           |
+| orders             |
+| salesman           |
++--------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from customer;
+Empty set (0.01 sec)
+
+mysql>  load data local infile 'C:/Program Files/MySQL/customer.csv'
+    ->          into table customer
+    ->          fields terminated by ','
+    ->          enclosed by '"'
+    ->          lines terminated by '\n'
+    ->          ignore 1 rows;
+Query OK, 9 rows affected, 10 warnings (0.01 sec)
+Records: 9  Deleted: 0  Skipped: 0  Warnings: 10
+
+mysql> select * from customer;
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+| 3002        | Nick Rimando   | New York   |   100 | 5001        |
+| 3007        | Brad Davis     | New York   |   200 | 5001        |
+| 3005        | Graham Zusi    | California |   200 | 5002        |
+| 3008        | Julian Green   | London     |   300 | 5002        |
+| 3004        | Fabian Johnson | Paris      |   300 | 5006        |
+| 3009        | Geoff Cameron  | Berlin     |   100 | 5003        |
+| 3003        | Jozy Altidor   | Moscow     |   200 | 5007        |
+| 3001        | Brad Guzan     | London     |     0 | 5005        |
+|             |                |            |     0 |             |
++-------------+----------------+------------+-------+-------------+
+9 rows in set (0.00 sec)
+
+mysql>  DELETE FROM customer where grade = 0;
+Query OK, 2 rows affected (0.02 sec)
+
+mysql> select * from customer;
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+| 3002        | Nick Rimando   | New York   |   100 | 5001        |
+| 3007        | Brad Davis     | New York   |   200 | 5001        |
+| 3005        | Graham Zusi    | California |   200 | 5002        |
+| 3008        | Julian Green   | London     |   300 | 5002        |
+| 3004        | Fabian Johnson | Paris      |   300 | 5006        |
+| 3009        | Geoff Cameron  | Berlin     |   100 | 5003        |
+| 3003        | Jozy Altidor   | Moscow     |   200 | 5007        |
++-------------+----------------+------------+-------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into customer values ('3001','Brad Guzan','London',,'5005;);
+    '>
+    '> ;
+    '> ^C
+mysql> insert into customer values ('3001','Brad Guzan','London',,'5005');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ','5005')' at line 1
+mysql>
+mysql>
+mysql>
+mysql> insert into customer values ('3001','Brad Guzan','London', ,'5005');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ','5005')' at line 1
+mysql>
+mysql>
+mysql> insert into customer(customer_id, cust_name, city, salesman_id) values ('3001','Brad Guzan','London','5005');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from customer;
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+| 3002        | Nick Rimando   | New York   |   100 | 5001        |
+| 3007        | Brad Davis     | New York   |   200 | 5001        |
+| 3005        | Graham Zusi    | California |   200 | 5002        |
+| 3008        | Julian Green   | London     |   300 | 5002        |
+| 3004        | Fabian Johnson | Paris      |   300 | 5006        |
+| 3009        | Geoff Cameron  | Berlin     |   100 | 5003        |
+| 3003        | Jozy Altidor   | Moscow     |   200 | 5007        |
+| 3001        | Brad Guzan     | London     |  NULL | 5005        |
++-------------+----------------+------------+-------+-------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select * from customer where grade > 100;
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+| 3007        | Brad Davis     | New York   |   200 | 5001        |
+| 3005        | Graham Zusi    | California |   200 | 5002        |
+| 3008        | Julian Green   | London     |   300 | 5002        |
+| 3004        | Fabian Johnson | Paris      |   300 | 5006        |
+| 3003        | Jozy Altidor   | Moscow     |   200 | 5007        |
++-------------+----------------+------------+-------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer where grade > 100 AND city = 'NEW YORK';
++-------------+------------+----------+-------+-------------+
+| customer_id | cust_name  | city     | grade | salesman_id |
++-------------+------------+----------+-------+-------------+
+| 3007        | Brad Davis | New York |   200 | 5001        |
++-------------+------------+----------+-------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer where grade > 100 OR city = 'NEW YORK';
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+| 3002        | Nick Rimando   | New York   |   100 | 5001        |
+| 3007        | Brad Davis     | New York   |   200 | 5001        |
+| 3005        | Graham Zusi    | California |   200 | 5002        |
+| 3008        | Julian Green   | London     |   300 | 5002        |
+| 3004        | Fabian Johnson | Paris      |   300 | 5006        |
+| 3003        | Jozy Altidor   | Moscow     |   200 | 5007        |
++-------------+----------------+------------+-------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customer where grade !> 100 OR city = 'NEW YORK';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '!> 100 OR city= 'NEW YORK'' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select * from customer where grade <= 100 OR city = 'NEW YORK';
++-------------+---------------+----------+-------+-------------+
+| customer_id | cust_name     | city     | grade | salesman_id |
++-------------+---------------+----------+-------+-------------+
+| 3002        | Nick Rimando  | New York |   100 | 5001        |
+| 3007        | Brad Davis    | New York |   200 | 5001        |
+| 3009        | Geoff Cameron | Berlin   |   100 | 5003        |
++-------------+---------------+----------+-------+-------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select * from customer where grade > 100 OR city != 'NEW YORK';
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+| 3007        | Brad Davis     | New York   |   200 | 5001        |
+| 3005        | Graham Zusi    | California |   200 | 5002        |
+| 3008        | Julian Green   | London     |   300 | 5002        |
+| 3004        | Fabian Johnson | Paris      |   300 | 5006        |
+| 3009        | Geoff Cameron  | Berlin     |   100 | 5003        |
+| 3003        | Jozy Altidor   | Moscow     |   200 | 5007        |
+| 3001        | Brad Guzan     | London     |  NULL | 5005        |
++-------------+----------------+------------+-------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from orders;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|  70009 |    270.65 | 2012-09-10 |        3001 |        5005 |
+|  70002 |     65.26 | 2012-10-05 |        3002 |        5001 |
+|  70004 |     110.5 | 2012-08-17 |        3009 |        5003 |
+|  70007 |     948.5 | 2012-09-10 |        3005 |        5002 |
+|  70005 |    2400.6 | 2012-07-27 |        3007 |        5001 |
+|  70008 |      5760 | 2012-09-10 |        3002 |        5001 |
+|  70010 |   1983.43 | 2012-10-10 |        3004 |        5006 |
+|  70003 |    2480.4 | 2012-10-10 |        3009 |        5003 |
+|  70012 |    250.45 | 2012-06-27 |        3008 |        5002 |
+|  70011 |     75.29 | 2012-08-17 |        3003 |        5007 |
+|  70013 |    3045.6 | 2012-04-25 |        3002 |        5001 |
++--------+-----------+------------+-------------+-------------+
+12 rows in set (0.00 sec)
+
+mysql> select * from orders where order_date != '2012/09/10' AND salesman_id > '5005' OR purch_amt > 10000;
+ERROR 1054 (42S22): Unknown column 'order_date' in 'where clause'
+mysql>
+mysql> select * from orders where ord_date != '2012/09/10' AND salesman_id > '5005' OR purch_amt > 10000;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70010 |   1983.43 | 2012-10-10 |        3004 |        5006 |
+|  70011 |     75.29 | 2012-08-17 |        3003 |        5007 |
++--------+-----------+------------+-------------+-------------+
+2 rows in set, 1 warning (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select * from salesman;
++-------------+------------+----------+------------+
+| salesman_id | name       | city     | commission |
++-------------+------------+----------+------------+
+|        5001 | James Hoog | New York |       0.15 |
+|        5002 | Nail Knite | Paris    |       0.13 |
+|        5005 | Pit Alex   | London   |       0.11 |
+|        5006 | Mc Lyon    | Paris    |       0.14 |
+|        5007 | Paul Adam  | Rome     |       0.13 |
+|        5003 | Lauson Hen | San Jose |       0.12 |
++-------------+------------+----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from salesman WHERE commission BETWEEN 0.10 TO 0.12;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TO 0.12' at line 1
+mysql>
+mysql>
+mysql> select * from salesman WHERE commission BETWEEN 0.10 AND 0.12;
++-------------+------------+----------+------------+
+| salesman_id | name       | city     | commission |
++-------------+------------+----------+------------+
+|        5005 | Pit Alex   | London   |       0.11 |
+|        5003 | Lauson Hen | San Jose |       0.12 |
++-------------+------------+----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from orders;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|  70009 |    270.65 | 2012-09-10 |        3001 |        5005 |
+|  70002 |     65.26 | 2012-10-05 |        3002 |        5001 |
+|  70004 |     110.5 | 2012-08-17 |        3009 |        5003 |
+|  70007 |     948.5 | 2012-09-10 |        3005 |        5002 |
+|  70005 |    2400.6 | 2012-07-27 |        3007 |        5001 |
+|  70008 |      5760 | 2012-09-10 |        3002 |        5001 |
+|  70010 |   1983.43 | 2012-10-10 |        3004 |        5006 |
+|  70003 |    2480.4 | 2012-10-10 |        3009 |        5003 |
+|  70012 |    250.45 | 2012-06-27 |        3008 |        5002 |
+|  70011 |     75.29 | 2012-08-17 |        3003 |        5007 |
+|  70013 |    3045.6 | 2012-04-25 |        3002 |        5001 |
++--------+-----------+------------+-------------+-------------+
+12 rows in set (0.00 sec)
+
+mysql> select * from orders where purch_amt < 200 OR ord_date < '2012/02/10' AND customer_id < '3009';
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|  70002 |     65.26 | 2012-10-05 |        3002 |        5001 |
+|  70004 |     110.5 | 2012-08-17 |        3009 |        5003 |
+|  70011 |     75.29 | 2012-08-17 |        3003 |        5007 |
++--------+-----------+------------+-------------+-------------+
+4 rows in set, 1 warning (0.00 sec)
+
+mysql> select * from orders where NOT IN (ord_date = '2012/08/17' OR customer_id > '3005' AND purch_amt < 1000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IN (ord_date ='2012/08/17' OR customer_id > '3005' AND purch_amt < 1000)' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select * from orders;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|  70009 |    270.65 | 2012-09-10 |        3001 |        5005 |
+|  70002 |     65.26 | 2012-10-05 |        3002 |        5001 |
+|  70004 |     110.5 | 2012-08-17 |        3009 |        5003 |
+|  70007 |     948.5 | 2012-09-10 |        3005 |        5002 |
+|  70005 |    2400.6 | 2012-07-27 |        3007 |        5001 |
+|  70008 |      5760 | 2012-09-10 |        3002 |        5001 |
+|  70010 |   1983.43 | 2012-10-10 |        3004 |        5006 |
+|  70003 |    2480.4 | 2012-10-10 |        3009 |        5003 |
+|  70012 |    250.45 | 2012-06-27 |        3008 |        5002 |
+|  70011 |     75.29 | 2012-08-17 |        3003 |        5007 |
+|  70013 |    3045.6 | 2012-04-25 |        3002 |        5001 |
++--------+-----------+------------+-------------+-------------+
+12 rows in set (0.00 sec)
+
+mysql> select * from orders where ord_date != '2012/08/17' OR customer_id <= '3005' AND purch_amt >= 1000;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|  70009 |    270.65 | 2012-09-10 |        3001 |        5005 |
+|  70002 |     65.26 | 2012-10-05 |        3002 |        5001 |
+|  70007 |     948.5 | 2012-09-10 |        3005 |        5002 |
+|  70005 |    2400.6 | 2012-07-27 |        3007 |        5001 |
+|  70008 |      5760 | 2012-09-10 |        3002 |        5001 |
+|  70010 |   1983.43 | 2012-10-10 |        3004 |        5006 |
+|  70003 |    2480.4 | 2012-10-10 |        3009 |        5003 |
+|  70012 |    250.45 | 2012-06-27 |        3008 |        5002 |
+|  70013 |    3045.6 | 2012-04-25 |        3002 |        5001 |
++--------+-----------+------------+-------------+-------------+
+10 rows in set, 1 warning (0.00 sec)
+
+mysql> select ord_no, purch_amt, count(purch_amt/6000*100) from orders WHERE count(purch_amt/6000*100) > 50;
+ERROR 1111 (HY000): Invalid use of group function
+mysql>
+mysql>
+mysql>
+mysql> select ord_no, purch_amt, count(purch_amt/6000*100) from orders GROUP BY purch_amt HAVING count(purch_amt/6000*100) > 50;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cdac_ass.orders.ord_no' which is not functionally dependenton columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql> select ord_no, purch_amt, count(purch_amt) from orders GROUP BY purch_amt/6000*100 HAVING count(purch_amt) > 50;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cdac_ass.orders.ord_no' which is not functionally dependenton columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select ord_no, purch_amt, count(purch_amt/6000*100) from orders GROUP BY purch_amt HAVING count(purch_amt/6000*100) > 50;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cdac_ass.orders.ord_no' which is not functionally dependenton columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql> select ord_no, purch_amt, purch_amt/6000*100 from orders GROUP BY purch_amt HAVING purch_amt/6000*100 > 50;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cdac_ass.orders.ord_no' which is not functionally dependenton columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select ord_no, purch_amt from orders WHERE purch_amt/6000*100 > 50;
++--------+-----------+
+| ord_no | purch_amt |
++--------+-----------+
+|  70008 |      5760 |
+|  70013 |    3045.6 |
++--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from orders;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|  70009 |    270.65 | 2012-09-10 |        3001 |        5005 |
+|  70002 |     65.26 | 2012-10-05 |        3002 |        5001 |
+|  70004 |     110.5 | 2012-08-17 |        3009 |        5003 |
+|  70007 |     948.5 | 2012-09-10 |        3005 |        5002 |
+|  70005 |    2400.6 | 2012-07-27 |        3007 |        5001 |
+|  70008 |      5760 | 2012-09-10 |        3002 |        5001 |
+|  70010 |   1983.43 | 2012-10-10 |        3004 |        5006 |
+|  70003 |    2480.4 | 2012-10-10 |        3009 |        5003 |
+|  70012 |    250.45 | 2012-06-27 |        3008 |        5002 |
+|  70011 |     75.29 | 2012-08-17 |        3003 |        5007 |
+|  70013 |    3045.6 | 2012-04-25 |        3002 |        5001 |
++--------+-----------+------------+-------------+-------------+
+12 rows in set (0.00 sec)
+
+mysql> select ord_no, purch_amt from orders WHERE purch_amt/6000*100 > 50;
++--------+-----------+
+| ord_no | purch_amt |
++--------+-----------+
+|  70008 |      5760 |
+|  70013 |    3045.6 |
++--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select ord_no, purch_amt, purch_amt/6000*100 as 'acheieved percentage(%)', 100-purch_amt/6000*100 as 'unacheieved percentage(%)' from orders WHERE purch_amt/6000*100 > 50;
++--------+-----------+-------------------------+---------------------------+
+| ord_no | purch_amt | acheieved percentage(%) | unacheieved percentage(%) |
++--------+-----------+-------------------------+---------------------------+
+|  70008 |      5760 |                      96 |                         4 |
+|  70013 |    3045.6 |       50.75999999999999 |         49.24000000000001 |
++--------+-----------+-------------------------+---------------------------+
+2 rows in set (0.00 sec)
+
+mysql>

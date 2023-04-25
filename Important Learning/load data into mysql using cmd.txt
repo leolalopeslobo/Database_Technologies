@@ -1,0 +1,6 @@
+ load data local infile 'C:/Program Files/MySQL/customer.csv'
+ 	into table customer
+ 	fields terminated by ','
+ 	enclosed by '"'
+ 	lines terminated by '\n'
+ 	ignore 1 rows;
