@@ -1,0 +1,68 @@
+Day5
+
+
+DISTINCT
+GROUP BY
+	- JOIN with GROUP BY
+	- GROUP BY with HAVING (here 'HAVING' is used to specify the condition in group by since WHERE won't work here)
+<> or != (Not EQUAL)
+
+AGGREGATE FUNCTIONS (GROUP FUNCTIONS) in Group By:
+Eg: MIN, MAX, COUNT, GROUP BY...
+
+Query Within a Query or Sub-Query
+
+EXISTS , NOT EXISTS
+
+
+UNION
+INTERSECTION: Not Supported, but can be achieved by using a WHERE clause with IN and a SUB QUERY
+MINUS: MINUS is also not supported hence it can be achieved using WHERE clause with NOT IN with SubQuery
+
+
+-------------------
+Used with Strings
+UCASE - Upper Case
+LCASE - Lower Case
+LEFT
+RIGHT
+-------------------
+
+-------------------------
+COMMIT : It's basically like saving the progress dont by your query
+ROLLBACK : Undo the previous query, but this only work when commit = 0
+SAVEPOINT : Works like a bookmark
+-------------------------
+
+
+-----------------------
+AUTO INCREMENTED TABLE
+(Works for numeric fields)
+
+create table product
+(
+	pid int(10) PRIMARY KEY AUTO_INCREMENT,
+	pname varchar(20)
+);
+
+----------------------
+CREATING NEW USERS
+create user abc@localhost IDENTIFIED BY 'mm';
+we need to mention that localhost since we are creating on the same host
+mm - here is the password
+
+DISPLAYING THE USER
+select User from mysql.user;
+
+GRANTING PERMISSION TO THE CREATED USER
+GRANT select ON cdac_db.* TO abc@localhost;
+
+TAKING BACK PRIVILAGES FROM CREATED USER
+REVOKE select ON cdac_db.* FROM abc@localhost;
+
+-----------------------------------
+Giving a new password to the user
+alter user abc@localhost identified by '123';
+-----------------------------------
+
+CROSS JOIN (Least Used)

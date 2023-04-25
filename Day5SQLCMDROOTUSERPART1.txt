@@ -1,0 +1,1439 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 40
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac_ass           |
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.03 sec)
+
+mysql> use cdac_db;
+Database changed
+mysql>
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| author1           |
+| book              |
+| department        |
+| employee          |
++-------------------+
+5 rows in set (0.03 sec)
+
+mysql> select * from employee;
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| EmployeeId | eFName      | eLName     | Sex  | DOJ        | Designation     | DeptId | LocationID | Salary | ReportTo |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+| E001       | Amar        | Sharma     | M    | 2018-03-25 | General Manager | D002   | L003       |  12000 | E001     |
+| E002       | Janki       | Srivastava | F    | 2015-09-01 | Librarian       | NULL   | L001       |  14000 | NULL     |
+| E003       | Kishan      | Rane       | M    | 2017-10-01 | Sweeper         | D003   | L003       |   8000 | NULL     |
+| E004       | Romila      | Arora      | F    | 2014-01-01 | Director        | D004   | L001       |  21000 | E004     |
+| E006       | Chandrakant | Bakshi     | M    | 2018-03-25 | Accountant      | NULL   | L003       |  13700 | E002     |
+| E007       | Kajal       | Oza        | F    | 2018-03-25 | Accountant      | D002   | L003       |  11000 | E002     |
+| E008       | Devaki      | Pandit     | F    | 2018-03-25 | Accountant      | D002   | L003       |  14100 | E002     |
+| E009       | Raman       | Iyyer      | M    | 2018-03-25 | Director        | D002   | L003       |  52000 | NULL     |
+| E010       | Rama        | Joshi      | M    | 2017-10-01 | Sweeper         | D003   | L003       |   7800 | E002     |
++------------+-------------+------------+------+------------+-----------------+--------+------------+--------+----------+
+9 rows in set (0.02 sec)
+
+mysql> select efame, salary from employee;
+ERROR 1054 (42S22): Unknown column 'efame' in 'field list'
+mysql> select efname, salary from employee;
++-------------+--------+
+| efname      | salary |
++-------------+--------+
+| Amar        |  12000 |
+| Janki       |  14000 |
+| Kishan      |   8000 |
+| Romila      |  21000 |
+| Chandrakant |  13700 |
+| Kajal       |  11000 |
+| Devaki      |  14100 |
+| Raman       |  52000 |
+| Rama        |   7800 |
++-------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select efname, category, salary from employee;
+ERROR 1054 (42S22): Unknown column 'category' in 'field list'
+mysql> select efname, desination, salary from employee;
+ERROR 1054 (42S22): Unknown column 'desination' in 'field list'
+mysql> select efname, designation, salary from employee;
++-------------+-----------------+--------+
+| efname      | designation     | salary |
++-------------+-----------------+--------+
+| Amar        | General Manager |  12000 |
+| Janki       | Librarian       |  14000 |
+| Kishan      | Sweeper         |   8000 |
+| Romila      | Director        |  21000 |
+| Chandrakant | Accountant      |  13700 |
+| Kajal       | Accountant      |  11000 |
+| Devaki      | Accountant      |  14100 |
+| Raman       | Director        |  52000 |
+| Rama        | Sweeper         |   7800 |
++-------------+-----------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select designation from employee;
++-----------------+
+| designation     |
++-----------------+
+| General Manager |
+| Librarian       |
+| Sweeper         |
+| Director        |
+| Accountant      |
+| Accountant      |
+| Accountant      |
+| Director        |
+| Sweeper         |
++-----------------+
+9 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select distinct(designation) from employee;
++-----------------+
+| designation     |
++-----------------+
+| General Manager |
+| Librarian       |
+| Sweeper         |
+| Director        |
+| Accountant      |
++-----------------+
+5 rows in set (0.02 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select designation, COUNT(designation) from employee GROUP BY designation;
++-----------------+--------------------+
+| designation     | COUNT(designation) |
++-----------------+--------------------+
+| General Manager |                  1 |
+| Librarian       |                  1 |
+| Sweeper         |                  2 |
+| Director        |                  2 |
+| Accountant      |                  3 |
++-----------------+--------------------+
+5 rows in set (0.02 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select gender, COUNT(gender) from employee GROUP BY gender;
+ERROR 1054 (42S22): Unknown column 'gender' in 'field list'
+mysql> select sex, COUNT(sex) from employee GROUP BY sex;
++------+------------+
+| sex  | COUNT(sex) |
++------+------------+
+| M    |          5 |
+| F    |          4 |
++------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select locationid, count(locationid) from employee group by locationid;
++------------+-------------------+
+| locationid | count(locationid) |
++------------+-------------------+
+| L003       |                 7 |
+| L001       |                 2 |
++------------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> create table location
+    -> (
+    -> LocationID PRIMARY KEY,
+    -> ^C
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> create table location
+    -> (
+    -> LocationID varchar(20) PRIMARY KEY,
+    -> city varchar(20),
+    -> State varchar(10),
+    -> pincode int(10)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> desc location;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| LocationID | varchar(20) | NO   | PRI | NULL    |       |
+| city       | varchar(20) | YES  |     | NULL    |       |
+| State      | varchar(10) | YES  |     | NULL    |       |
+| pincode    | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> insert into location values ('L001','Mumbai','MH',400001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from location;
++------------+--------+-------+---------+
+| LocationID | city   | State | pincode |
++------------+--------+-------+---------+
+| L001       | Mumbai | MH    |  400001 |
++------------+--------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into location values ('L002','Pune','MH',411005);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from location;
++------------+--------+-------+---------+
+| LocationID | city   | State | pincode |
++------------+--------+-------+---------+
+| L001       | Mumbai | MH    |  400001 |
+| L002       | Pune   | MH    |  411005 |
++------------+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> insert into location values ('L003','Bangalore','KA',560001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into location values ('L004','Ahemadabad','GJ',380001);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into location values ('L005','Delhi','DL',110001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from location;
++------------+------------+-------+---------+
+| LocationID | city       | State | pincode |
++------------+------------+-------+---------+
+| L001       | Mumbai     | MH    |  400001 |
+| L002       | Pune       | MH    |  411005 |
+| L003       | Bangalore  | KA    |  560001 |
+| L004       | Ahemadabad | GJ    |  380001 |
+| L005       | Delhi      | DL    |  110001 |
++------------+------------+-------+---------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select city, count(locationid) from employee JOIN location ON employee.locationid = location.locationid GROUP BY employee.locationid;
+ERROR 1052 (23000): Column 'locationid' in field list is ambiguous
+mysql>
+mysql>
+mysql>
+mysql> select city, count(employee.locationid) from employee JOIN location ON employee.locationid = location.locationid GROUP BY employee.locationid;
++-----------+----------------------------+
+| city      | count(employee.locationid) |
++-----------+----------------------------+
+| Bangalore |                          7 |
+| Mumbai    |                          2 |
++-----------+----------------------------+
+2 rows in set (0.00 sec)
+
+mysql> select city, count(employee.locationid) from location JOIN employee ON employee.locationid = location.locationid GROUP BY employee.locationid;
++-----------+----------------------------+
+| city      | count(employee.locationid) |
++-----------+----------------------------+
+| Bangalore |                          7 |
+| Mumbai    |                          2 |
++-----------+----------------------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select city, count(employee.locationid) from location JOIN employee ON location.locationid = employee.locationid GROUP BY employee.locationid;
++-----------+----------------------------+
+| city      | count(employee.locationid) |
++-----------+----------------------------+
+| Bangalore |                          7 |
+| Mumbai    |                          2 |
++-----------+----------------------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | Mukul Deva       | Singapore   | M      |
+| A005     | Devaki Pandit    | Singapore   | F      |
++----------+------------------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select nationality, count(nationality) from author;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.author.nationality'; this is incompatible with sql_mode=only_full_group_by
+mysql> select nationality, count(nationality) from author;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.author.nationality'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql> select nationality, count(nationality) from author GROUP BY nationality;
++-------------+--------------------+
+| nationality | count(nationality) |
++-------------+--------------------+
+| India       |                  2 |
+| UK          |                  1 |
+| Singapore   |                  2 |
++-------------+--------------------+
+3 rows in set (0.00 sec)
+
+mysql> select sex, COUNT(sex) from employee GROUP BY sex where count(sex) > 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where count(sex) > 1' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select sex, COUNT(sex) from employee GROUP BY sex HAVING count(sex) > 1;
++------+------------+
+| sex  | COUNT(sex) |
++------+------------+
+| M    |          5 |
+| F    |          4 |
++------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select sex, COUNT(sex) from employee where count(sex) > 1 GROUP BY sex;
+ERROR 1111 (HY000): Invalid use of group function
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select designation, count(designation) from employee Group By employee;
+ERROR 1054 (42S22): Unknown column 'employee' in 'group statement'
+mysql> select designation, count(designation) from employee Group By designation;
++-----------------+--------------------+
+| designation     | count(designation) |
++-----------------+--------------------+
+| General Manager |                  1 |
+| Librarian       |                  1 |
+| Sweeper         |                  2 |
+| Director        |                  2 |
+| Accountant      |                  3 |
++-----------------+--------------------+
+5 rows in set (0.00 sec)
+
+mysql> select 'Eliminate Director from the above list' as 'Task';
++----------------------------------------+
+| Task                                   |
++----------------------------------------+
+| Eliminate Director from the above list |
++----------------------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select designation, COUNT(designation) from employee GROUP BY designation NOT HAVING designation = 'Director';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'HAVING designation = 'Director'' at line 1
+mysql>
+mysql>
+mysql> select designation, COUNT(designation) from employee GROUP BY designation NOT HAVING designation = Director;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'HAVING designation = Director' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select designation, COUNT(designation) from employee GROUP BY designation HAVING designation != 'Director';
++-----------------+--------------------+
+| designation     | COUNT(designation) |
++-----------------+--------------------+
+| General Manager |                  1 |
+| Librarian       |                  1 |
+| Sweeper         |                  2 |
+| Accountant      |                  3 |
++-----------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> select designation, COUNT(designation) from employee GROUP BY designation HAVING designation <> 'Director';
++-----------------+--------------------+
+| designation     | COUNT(designation) |
++-----------------+--------------------+
+| General Manager |                  1 |
+| Librarian       |                  1 |
+| Sweeper         |                  2 |
+| Accountant      |                  3 |
++-----------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select designation, COUNT(designation) from employee GROUP BY designation HAVING designation not in ('Director');
++-----------------+--------------------+
+| designation     | COUNT(designation) |
++-----------------+--------------------+
+| General Manager |                  1 |
+| Librarian       |                  1 |
+| Sweeper         |                  2 |
+| Accountant      |                  3 |
++-----------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select cost from book;
++------+
+| cost |
++------+
+|  400 |
+|  359 |
+|  359 |
+|  118 |
+|  185 |
+|  155 |
+|  118 |
+|  186 |
+|  125 |
+|  375 |
+|  375 |
++------+
+11 rows in set (0.00 sec)
+
+mysql> select bookname, max(cost) from book;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.book.BookName'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql> select bookname, cost from book;
++--------------------------------+------+
+| bookname                       | cost |
++--------------------------------+------+
+| The World is Flat              |  400 |
+| On Wings of Eagles             |  359 |
+| Rich Dad Poor Daa              |  359 |
+| Megaliving                     |  118 |
+| A Brief History of Time        |  185 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| The Incredible Banker          |  186 |
+| A Brief History of Humankind   |  125 |
+| Bankstur                       |  375 |
+| Lashkar                        |  375 |
++--------------------------------+------+
+11 rows in set (0.00 sec)
+
+mysql> select bookname, max(cost) from book;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.book.BookName'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql> select bookname, max(cost) from book;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.book.BookName'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select max(cost) from book;
++-----------+
+| max(cost) |
++-----------+
+|       400 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select bookname, max(cost) from book;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.book.BookName'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql> select min(cost) from book;
++-----------+
+| min(cost) |
++-----------+
+|       118 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select bookname, min(cost) from book;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.book.BookName'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql> select efname, salary from employee;
++-------------+--------+
+| efname      | salary |
++-------------+--------+
+| Amar        |  12000 |
+| Janki       |  14000 |
+| Kishan      |   8000 |
+| Romila      |  21000 |
+| Chandrakant |  13700 |
+| Kajal       |  11000 |
+| Devaki      |  14100 |
+| Raman       |  52000 |
+| Rama        |   7800 |
++-------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select efname, max(salary) from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.employee.eFName'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select efname , max(salary) from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac_db.employee.eFName'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> max(salary) from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'max(salary) from employee' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select max(salary) from employee;
++-------------+
+| max(salary) |
++-------------+
+|       52000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select efname from employee where salary = (select max(salary) from employee);
++--------+
+| efname |
++--------+
+| Raman  |
++--------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select efname, salary from employee where salary = (select max(salary) from employee);
++--------+--------+
+| efname | salary |
++--------+--------+
+| Raman  |  52000 |
++--------+--------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select efname, salary from employee where salary = (select min(salary) from employee);
++--------+--------+
+| efname | salary |
++--------+--------+
+| Rama   |   7800 |
++--------+--------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select bookname, cost from book where cost = (select max(cost) from book);
++-------------------+------+
+| bookname          | cost |
++-------------------+------+
+| The World is Flat |  400 |
++-------------------+------+
+1 row in set (0.00 sec)
+
+mysql> select bookname, cost from book where cost = (select min(cost) from book);
++--------------------+------+
+| bookname           | cost |
++--------------------+------+
+| Megaliving         |  118 |
+| Five Point Someone |  118 |
++--------------------+------+
+2 rows in set (0.00 sec)
+
+mysql> select bookname, cost from book;
++--------------------------------+------+
+| bookname                       | cost |
++--------------------------------+------+
+| The World is Flat              |  400 |
+| On Wings of Eagles             |  359 |
+| Rich Dad Poor Daa              |  359 |
+| Megaliving                     |  118 |
+| A Brief History of Time        |  185 |
+| Murder On The Oriental Express |  155 |
+| Five Point Someone             |  118 |
+| The Incredible Banker          |  186 |
+| A Brief History of Humankind   |  125 |
+| Bankstur                       |  375 |
+| Lashkar                        |  375 |
++--------------------------------+------+
+11 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select * from book;
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| BookId | BookName                       | Category        | Cost | NoOfPages | BookStatus | BookLastIssuedDate | BookLastIssuedTime | AuthorId |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+| B001   | The World is Flat              | Non-Fiction     |  400 |       448 | A          | 2020-02-01         | 12:23:00   | A001     |
+| B002   | On Wings of Eagles             | Non-Fiction     |  359 |       624 | NA         | 2019-12-15         | 11:33:00   | A002     |
+| B003   | Rich Dad Poor Daa              | Self-Help       |  359 |       624 | NA         | 2020-01-25         | 10:11:00   | A003     |
+| B004   | Megaliving                     | Fiction         |  118 |       198 | A          | 2019-11-10         | 13:27:00   | A004     |
+| B005   | A Brief History of Time        | Science Fiction |  185 |       256 | A          | 2020-03-22         | 09:49:00   | A005     |
+| B006   | Murder On The Oriental Express | Mystery         |  155 |       256 | NA         | 2019-10-12         | 14:05:00   | A006     |
+| B007   | Five Point Someone             | Fiction         |  118 |       270 | A          | 2020-01-04         | 15:01:00   | A007     |
+| B008   | The Incredible Banker          | Fiction         |  186 |       320 | A          | 2020-05-07         | 11:01:00   | A011     |
+| B009   | A Brief History of Humankind   | Fiction         |  125 |       450 | A          | 2020-05-07         | 11:01:00   | A012     |
+| B010   | Bankstur                       | Fiction         |  375 |       450 | A          | 2020-05-07         | 11:01:00   | NULL     |
+| B011   | Lashkar                        | Fiction         |  375 |       325 | A          | 2020-05-07         | 11:01:00   | NULL     |
++--------+--------------------------------+-----------------+------+-----------+------------+--------------------+--------------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> select * from author;
++----------+------------------+-------------+--------+
+| authorid | authorname       | nationality | gender |
++----------+------------------+-------------+--------+
+| A001     | Chetan Bhagat    | India       | M      |
+| A002     | Ravi Subraminyan | India       | M      |
+| A003     | Agatha Christi   | UK          | F      |
+| A004     | Mukul Deva       | Singapore   | M      |
+| A005     | Devaki Pandit    | Singapore   | F      |
++----------+------------------+-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select author, nationality from author where nationality = 'Singapore';
+ERROR 1054 (42S22): Unknown column 'author' in 'field list'
+mysql>
+mysql>
+mysql> select authorname, nationality from author where nationality = 'Singapore';
++---------------+-------------+
+| authorname    | nationality |
++---------------+-------------+
+| Mukul Deva    | Singapore   |
+| Devaki Pandit | Singapore   |
++---------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select authorname, nationality from author where nationality = 'UK';
++----------------+-------------+
+| authorname     | nationality |
++----------------+-------------+
+| Agatha Christi | UK          |
++----------------+-------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where author.nationality = (select nationality from author nationality = 'UK');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 'UK')' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where author.nationality = (select nationality from author nationality iS 'UK');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'iS 'UK')' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where author.nationality = (select nationality from author nationality iS 'UK');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'iS 'UK')' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select authorname, nationality from author where nationality = 'UK';
++----------------+-------------+
+| authorname     | nationality |
++----------------+-------------+
+| Agatha Christi | UK          |
++----------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select authorid from author where nationality = 'UK';
++----------+
+| authorid |
++----------+
+| A003     |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select authorid from author where nationality = 'UK';
++----------+
+| authorid |
++----------+
+| A003     |
++----------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where authorid = (select authorid fromauthor where nationality = 'UK');
+ERROR 1052 (23000): Column 'authorid' in where clause is ambiguous
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where book.authorid = (select authoridfrom author where nationality = 'UK');
++-------------------+----------------+
+| bookname          | authorname     |
++-------------------+----------------+
+| Rich Dad Poor Daa | Agatha Christi |
++-------------------+----------------+
+1 row in set (0.02 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where author.authorid = (select authorid from author where nationality = 'UK');
++-------------------+----------------+
+| bookname          | authorname     |
++-------------------+----------------+
+| Rich Dad Poor Daa | Agatha Christi |
++-------------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> ^C
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where author.authorid = (select authorid from author where nationality = 'India');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where author.authorid IN (select authorid from author where nationality = 'India');
++--------------------+------------------+
+| bookname           | authorname       |
++--------------------+------------------+
+| The World is Flat  | Chetan Bhagat    |
+| On Wings of Eagles | Ravi Subraminyan |
++--------------------+------------------+
+2 rows in set (0.01 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from author JOIN book ON book.authorid = author.authorid where author.authorid NOT IN (select authorid from author where nationality = 'India');
++-------------------------+----------------+
+| bookname                | authorname     |
++-------------------------+----------------+
+| Rich Dad Poor Daa       | Agatha Christi |
+| Megaliving              | Mukul Deva     |
+| A Brief History of Time | Devaki Pandit  |
++-------------------------+----------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select efname, employee.locationid, city from employee JOIN locayion ON employee.locationid = location.locationid;
+ERROR 1146 (42S02): Table 'cdac_db.locayion' doesn't exist
+mysql>
+mysql>
+mysql> select efname, employee.locationid, city from employee JOIN location ON employee.locationid = location.locationid;
++-------------+------------+-----------+
+| efname      | locationid | city      |
++-------------+------------+-----------+
+| Amar        | L003       | Bangalore |
+| Janki       | L001       | Mumbai    |
+| Kishan      | L003       | Bangalore |
+| Romila      | L001       | Mumbai    |
+| Chandrakant | L003       | Bangalore |
+| Kajal       | L003       | Bangalore |
+| Devaki      | L003       | Bangalore |
+| Raman       | L003       | Bangalore |
+| Rama        | L003       | Bangalore |
++-------------+------------+-----------+
+9 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select efname, employee.locationid, city from employee JOIN location ON employee.locationid = location.locationid where location.locationid = (select locationid from location where city = 'Dubai');
+Empty set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select efname from employee where locationid = (select locationid from location where city = 'Mumbai');
++--------+
+| efname |
++--------+
+| Janki  |
+| Romila |
++--------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select efname from employee where exists (select locationid from location where city = 'Mumbai');
++-------------+
+| efname      |
++-------------+
+| Amar        |
+| Janki       |
+| Kishan      |
+| Romila      |
+| Chandrakant |
+| Kajal       |
+| Devaki      |
+| Raman       |
+| Rama        |
++-------------+
+9 rows in set (0.00 sec)
+
+mysql> select efname from employee where EXISTS (select locationid from location where city = 'Mumbai');
++-------------+
+| efname      |
++-------------+
+| Amar        |
+| Janki       |
+| Kishan      |
+| Romila      |
+| Chandrakant |
+| Kajal       |
+| Devaki      |
+| Raman       |
+| Rama        |
++-------------+
+9 rows in set (0.00 sec)
+
+mysql> select efname from employee where NOT EXISTS (select locationid from location where city = 'Mumbai');
+Empty set (0.00 sec)
+
+mysql> select efname from employee where exists (select locationid from location where city = 'DUBAI');
+Empty set (0.00 sec)
+
+mysql> select efname from employee where NOT EXISTS (select locationid from location where city = 'DUBAI');
++-------------+
+| efname      |
++-------------+
+| Amar        |
+| Janki       |
+| Kishan      |
+| Romila      |
+| Chandrakant |
+| Kajal       |
+| Devaki      |
+| Raman       |
+| Rama        |
++-------------+
+9 rows in set (0.00 sec)
+
+mysql> ^C
+mysql>
+mysql>
+mysql>
+mysql> create table member1
+    -> (
+    -> mfname varchar(20)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table member2
+    -> (
+    -> mfname varchar(20)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into member1 values('Shreya');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into member1 values('Taniya');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into member1 values('Avdhesh');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into member1 values('Shikha');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into member1 values('Ajay');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into member2 values('Shreya');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into member2 values('Tony');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into member2 values('Shikha');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into member2 values('Radha');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from member1;
++---------+
+| mfname  |
++---------+
+| Shreya  |
+| Taniya  |
+| Avdhesh |
+| Shikha  |
+| Ajay    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from member2;
++--------+
+| mfname |
++--------+
+| Shreya |
+| Tony   |
+| Shikha |
+| Radha  |
++--------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select * from member1 UNION select * from member2;
++---------+
+| mfname  |
++---------+
+| Shreya  |
+| Taniya  |
+| Avdhesh |
+| Shikha  |
+| Ajay    |
+| Tony    |
+| Radha   |
++---------+
+7 rows in set (0.02 sec)
+
+mysql> select * from member1 UNION ALL select * from member2;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+No connection. Trying to reconnect...
+Connection id:    41
+Current database: cdac_db
+
++---------+
+| mfname  |
++---------+
+| Shreya  |
+| Taniya  |
+| Avdhesh |
+| Shikha  |
+| Ajay    |
+| Shreya  |
+| Tony    |
+| Shikha  |
+| Radha   |
++---------+
+9 rows in set (0.05 sec)
+
+mysql> ^C
+mysql> select * from member1;
++---------+
+| mfname  |
++---------+
+| Shreya  |
+| Taniya  |
+| Avdhesh |
+| Shikha  |
+| Ajay    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from member2;
++--------+
+| mfname |
++--------+
+| Shreya |
+| Tony   |
+| Shikha |
+| Radha  |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> select 'Display only COMMON elements' as 'Task';
++------------------------------+
+| Task                         |
++------------------------------+
+| Display only COMMON elements |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from member1 INTERCTION select * from member2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from member2' at line 1
+mysql> select * from member1 INTERCT select * from member2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from member2' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select * from member1;
++---------+
+| mfname  |
++---------+
+| Shreya  |
+| Taniya  |
+| Avdhesh |
+| Shikha  |
+| Ajay    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from member2;
++--------+
+| mfname |
++--------+
+| Shreya |
+| Tony   |
+| Shikha |
+| Radha  |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> select mfname from member1 where mfname IN (select mfname from member2);
++--------+
+| mfname |
++--------+
+| Shreya |
+| Shikha |
++--------+
+2 rows in set (0.01 sec)
+
+mysql> select * from member1;
++---------+
+| mfname  |
++---------+
+| Shreya  |
+| Taniya  |
+| Avdhesh |
+| Shikha  |
+| Ajay    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from member2;
++--------+
+| mfname |
++--------+
+| Shreya |
+| Tony   |
+| Shikha |
+| Radha  |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> select mfname from member1 where mfname NOT IN (select mfname from member2);
++---------+
+| mfname  |
++---------+
+| Taniya  |
+| Avdhesh |
+| Ajay    |
++---------+
+3 rows in set (0.00 sec)
+
+mysql> select mfname from member2 where mfname NOT IN (select mfname from member1);
++--------+
+| mfname |
++--------+
+| Tony   |
+| Radha  |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from member1 MINUS select * from member2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from member2' at line 1
+mysql> select * from member1 - select * from member2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '- select * from member2' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select 'Display Strings as Upper or Lower Case' as 'Task';
++----------------------------------------+
+| Task                                   |
++----------------------------------------+
+| Display Strings as Upper or Lower Case |
++----------------------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> selct efname from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selct efname from employee' at line 1
+mysql>
+mysql>
+mysql> select efname from employee;
++-------------+
+| efname      |
++-------------+
+| Amar        |
+| Janki       |
+| Kishan      |
+| Romila      |
+| Chandrakant |
+| Kajal       |
+| Devaki      |
+| Raman       |
+| Rama        |
++-------------+
+9 rows in set (0.01 sec)
+
+mysql> select ucase(efname) from employee;
++---------------+
+| ucase(efname) |
++---------------+
+| AMAR          |
+| JANKI         |
+| KISHAN        |
+| ROMILA        |
+| CHANDRAKANT   |
+| KAJAL         |
+| DEVAKI        |
+| RAMAN         |
+| RAMA          |
++---------------+
+9 rows in set (0.00 sec)
+
+mysql> select lcase(efname) from employee;
++---------------+
+| lcase(efname) |
++---------------+
+| amar          |
+| janki         |
+| kishan        |
+| romila        |
+| chandrakant   |
+| kajal         |
+| devaki        |
+| raman         |
+| rama          |
++---------------+
+9 rows in set (0.00 sec)
+
+mysql> select 'Print only first letter' as 'Task';
++-------------------------+
+| Task                    |
++-------------------------+
+| Print only first letter |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> select left(efname,1) from employee;
++----------------+
+| left(efname,1) |
++----------------+
+| A              |
+| J              |
+| K              |
+| R              |
+| C              |
+| K              |
+| D              |
+| R              |
+| R              |
++----------------+
+9 rows in set (0.00 sec)
+
+mysql> select left(efname,-1) from employee;
++-----------------+
+| left(efname,-1) |
++-----------------+
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
++-----------------+
+9 rows in set (0.00 sec)
+
+mysql> select left(efname,-2) from employee;
++-----------------+
+| left(efname,-2) |
++-----------------+
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
++-----------------+
+9 rows in set (0.00 sec)
+
+mysql> select right(efname,1) from employee;
++-----------------+
+| right(efname,1) |
++-----------------+
+| r               |
+| i               |
+| n               |
+| a               |
+| t               |
+| l               |
+| i               |
+| n               |
+| a               |
++-----------------+
+9 rows in set (0.00 sec)
+
+mysql> select efname from employee;
++-------------+
+| efname      |
++-------------+
+| Amar        |
+| Janki       |
+| Kishan      |
+| Romila      |
+| Chandrakant |
+| Kajal       |
+| Devaki      |
+| Raman       |
+| Rama        |
++-------------+
+9 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> select 'AUTO INCREMENT' as 'Lesson';
++----------------+
+| Lesson         |
++----------------+
+| AUTO INCREMENT |
++----------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> create table product
+    -> (
+    ->  pid int(10) PRIMARY KEY AUTO_INCREMENT,
+    ->  pname varchar(20)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.07 sec)
+
+mysql> desc product;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| pid   | int         | NO   | PRI | NULL    | auto_increment |
+| pname | varchar(20) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+mysql> insert into product values (1,'Keyboard');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into product(pname) values ('Headset');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from product;
++-----+----------+
+| pid | pname    |
++-----+----------+
+|   1 | Keyboard |
+|   2 | Headset  |
++-----+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into product(pname) values ('Router');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from product;
++-----+----------+
+| pid | pname    |
++-----+----------+
+|   1 | Keyboard |
+|   2 | Headset  |
+|   3 | Router   |
++-----+----------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select 'How to CREATE USERS' as 'Lesson';
++---------------------+
+| Lesson              |
++---------------------+
+| How to CREATE USERS |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select 'How to CREATE USERS on same host(localhost)' as 'Lesson';
++---------------------------------------------+
+| Lesson                                      |
++---------------------------------------------+
+| How to CREATE USERS on same host(localhost) |
++---------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> create user abc@localhost IDENTIFIED BY 'mm';
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select User from mysql.user;
++------------------+
+| User             |
++------------------+
+| abc              |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
++------------------+
+5 rows in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac_ass           |
+| cdac_db            |
+| information_schema |
+| mf                 |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> grant select ON cdac_db.* TO abc@localhost;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> grant select,update ON cdac_db.* TO abc@localhost;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql>
+mysql> REVOKE select,update ON cdac_db.* TO abc@localhost;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TO abc@localhost' at line 1
+mysql>
+mysql>
+mysql> REVOKE select,update FROM cdac_db.* TO abc@localhost;
+ERROR 1064 (42000): Illegal authorization identifier near 'select,update FROM cdac_db.* TO abc@localhost' at line 1
+mysql>
+mysql>
+mysql> REVOKE select,update ON cdac_db.* FROM abc@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql>
+mysql> alter user abc@localhost identified by '123';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select bookname, authorname from book JOIN author;
++--------------------------------+------------------+
+| bookname                       | authorname       |
++--------------------------------+------------------+
+| The World is Flat              | Ravi Subraminyan |
+| The World is Flat              | Mukul Deva       |
+| The World is Flat              | Devaki Pandit    |
+| The World is Flat              | Chetan Bhagat    |
+| The World is Flat              | Agatha Christi   |
+| On Wings of Eagles             | Ravi Subraminyan |
+| On Wings of Eagles             | Mukul Deva       |
+| On Wings of Eagles             | Devaki Pandit    |
+| On Wings of Eagles             | Chetan Bhagat    |
+| On Wings of Eagles             | Agatha Christi   |
+| Rich Dad Poor Daa              | Ravi Subraminyan |
+| Rich Dad Poor Daa              | Mukul Deva       |
+| Rich Dad Poor Daa              | Devaki Pandit    |
+| Rich Dad Poor Daa              | Chetan Bhagat    |
+| Rich Dad Poor Daa              | Agatha Christi   |
+| Megaliving                     | Ravi Subraminyan |
+| Megaliving                     | Mukul Deva       |
+| Megaliving                     | Devaki Pandit    |
+| Megaliving                     | Chetan Bhagat    |
+| Megaliving                     | Agatha Christi   |
+| A Brief History of Time        | Ravi Subraminyan |
+| A Brief History of Time        | Mukul Deva       |
+| A Brief History of Time        | Devaki Pandit    |
+| A Brief History of Time        | Chetan Bhagat    |
+| A Brief History of Time        | Agatha Christi   |
+| Murder On The Oriental Express | Ravi Subraminyan |
+| Murder On The Oriental Express | Mukul Deva       |
+| Murder On The Oriental Express | Devaki Pandit    |
+| Murder On The Oriental Express | Chetan Bhagat    |
+| Murder On The Oriental Express | Agatha Christi   |
+| Five Point Someone             | Ravi Subraminyan |
+| Five Point Someone             | Mukul Deva       |
+| Five Point Someone             | Devaki Pandit    |
+| Five Point Someone             | Chetan Bhagat    |
+| Five Point Someone             | Agatha Christi   |
+| The Incredible Banker          | Ravi Subraminyan |
+| The Incredible Banker          | Mukul Deva       |
+| The Incredible Banker          | Devaki Pandit    |
+| The Incredible Banker          | Chetan Bhagat    |
+| The Incredible Banker          | Agatha Christi   |
+| A Brief History of Humankind   | Ravi Subraminyan |
+| A Brief History of Humankind   | Mukul Deva       |
+| A Brief History of Humankind   | Devaki Pandit    |
+| A Brief History of Humankind   | Chetan Bhagat    |
+| A Brief History of Humankind   | Agatha Christi   |
+| Bankstur                       | Ravi Subraminyan |
+| Bankstur                       | Mukul Deva       |
+| Bankstur                       | Devaki Pandit    |
+| Bankstur                       | Chetan Bhagat    |
+| Bankstur                       | Agatha Christi   |
+| Lashkar                        | Ravi Subraminyan |
+| Lashkar                        | Mukul Deva       |
+| Lashkar                        | Devaki Pandit    |
+| Lashkar                        | Chetan Bhagat    |
+| Lashkar                        | Agatha Christi   |
++--------------------------------+------------------+
+55 rows in set (0.01 sec)
+
+mysql>

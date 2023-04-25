@@ -1,0 +1,195 @@
+
+C:\Users\leola>mysql -u abc -p
+Enter password: **
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 46
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
++--------------------+
+2 rows in set (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cdac_db            |
+| information_schema |
+| performance_schema |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> use cdac_db;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| author1           |
+| book              |
+| department        |
+| employee          |
+| location          |
+| member1           |
+| member2           |
+| product           |
++-------------------+
+9 rows in set (0.01 sec)
+
+mysql> select * from member2;
++--------+
+| mfname |
++--------+
+| Shreya |
+| Tony   |
+| Shikha |
+| Radha  |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> update member2 set mframe = 'Shantabai' where mfname = 'SHreya';
+ERROR 1142 (42000): UPDATE command denied to user 'abc'@'localhost' for table 'member2'
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> update member2 set mframe = 'Shantabai' where mfname = 'SHreya';
+ERROR 1142 (42000): UPDATE command denied to user 'abc'@'localhost' for table 'member2'
+mysql>
+mysql>
+mysql>
+mysql> exit
+Bye
+
+C:\Users\leola>mysql -u abc -p
+Enter password: **
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 47
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> update member2 set mframe = 'Shantabai' where mfname = 'SHreya';
+ERROR 1046 (3D000): No database selected
+mysql>
+mysql>
+mysql> use cdac_db;
+Database changed
+mysql>
+mysql> show tables;
++-------------------+
+| Tables_in_cdac_db |
++-------------------+
+| author            |
+| author1           |
+| book              |
+| department        |
+| employee          |
+| location          |
+| member1           |
+| member2           |
+| product           |
++-------------------+
+9 rows in set (0.01 sec)
+
+mysql> update member2 set mframe = 'Shantabai' where mfname = 'SHreya';
+ERROR 1054 (42S22): Unknown column 'mframe' in 'field list'
+mysql>
+mysql>
+mysql>
+mysql> update member2 set mfname = 'Shantabai' where mfname = 'SHreya';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from member2;
++-----------+
+| mfname    |
++-----------+
+| Shantabai |
+| Tony      |
+| Shikha    |
+| Radha     |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from member2;
++-----------+
+| mfname    |
++-----------+
+| Shantabai |
+| Tony      |
+| Shikha    |
+| Radha     |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+
+C:\Users\leola>mysql -u abc -p
+Enter password: **
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 48
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select * from member2;
+ERROR 1046 (3D000): No database selected
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
++--------------------+
+2 rows in set (0.01 sec)
+
+mysql> exit
+Bye
+
+C:\Users\leola>mysql -u abc -p
+Enter password: **
+ERROR 1045 (28000): Access denied for user 'abc'@'localhost' (using password: YES)
+
+C:\Users\leola>mysql -u abc -p
+Enter password: ***
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 50
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
