@@ -196,6 +196,7 @@ Ninth Rule 9:
 Logical Data Independence
   If there is change in the logical structure (table structures) of the databases the user view of data should not change
   If the table is split into two tables, a new view should give result as the join of the two tables (why? would you do this? -> This is done because as the data size grows larger we need to increase the search efficiency). When they still join back they result in the single table output and this can be done using the concept of **View**
+<h4>Views are a powerful feature of DBMSs that allow database users to create virtual tables based on SQL queries. They can simplify complex queries, provide an additional layer of security, and present data in a format that is different from the underlying tables. </h4>
   
   
   
