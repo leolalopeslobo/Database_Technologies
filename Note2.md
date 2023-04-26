@@ -1,4 +1,4 @@
-<h1>Normalization</h1>
+<h1>Normalization & Codd's Rules</h1>
 
 **RDBMS contains of Table**
 
